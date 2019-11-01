@@ -6,66 +6,18 @@
         <meta name="description" content="logged in main page">
         <title>Main Page!</title>
         <style>
-            p.name {
-                font-size: 50px;
-                color: #3399CC;
-            }
-            p.welcome {
-                font-size: 30px;
-                color: #333333;
-            }
-            p.desc {
-                font-size: 30px;
-                color: #99CC00;
-            }
-            div.name {
-                position:absolute;
-                left:20px;
-                top:100px;
-            }
-            div.welcome {
-                position:absolute;
-                left:20px;
-                top:60px;
-            }
-            div.desc {
-                position:absolute;
-                left:20px;
-                top:180px;
-            }
         </style>
         <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
         <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
-        <script
-			  src="https://code.jquery.com/jquery-3.4.1.min.js"
-			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-			  crossorigin="anonymous"></script>
+        <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
 
     </head>
     <body>
     <div class='welcome'>
-        <p class='welcome'>Welcome</p>
-    </div>
-    <div class='name'>
-        <p class='name'>User</p>
-    </div>
-    
-     <div class='desc'>
-        <p class='desc'><span>to</span><span>this</span><span>amazing</span><span>app</span></p>
+        <p>Welcome to the site!</p>
     </div>   
         
-    <script>
-        $(document).ready(function () {
-        $("p.welcome").hide().fadeIn(600).fadeOut(2000);
-        var elems=document.getElementsByTagName("span");
-        var arr=$.makeArray(elems);
-        $(arr).hide();
-        for (var len=0;len <= $(arr).length;len++) {
-            $(arr[len]).delay((1+len)* 2000).fadeIn(1800).fadeOut(1800);
-        }
-        $(".welcome span: name span: desc").css("color"," #333333");
-    });
-        </script>
+
    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
 
     <script>
@@ -85,6 +37,17 @@
       firebase.initializeApp(firebaseConfig);
       // Initialize the FirebaseUI Widget using Firebase.
       var ui = new firebaseui.auth.AuthUI(firebase.auth());
+        
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user) {
+              document.write('LOGGED IN')
+            // User is signed in.
+          } else {
+              document.write('NOPE')
+            // No user is signed in.
+          }
+});
+
         </script>
     </body>
 </html>
