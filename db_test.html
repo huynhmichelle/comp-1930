@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title>Database Test</title>
+        <meta charset="utf-8">
+        <title>Database Test</title>
+        <style>
+        </style>
+        <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
+        <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+        <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-firestore.js"></script>
+    </head>
+    <body>
+        <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
+        <script>
+            // Your web app's Firebase configuration
+            var firebaseConfig = {
+                apiKey: "AIzaSyCOl7zfOtE5H75WPViBv-jNxn9nZLhHNFo",
+                authDomain: "fire1-2c085.firebaseapp.com",
+                databaseURL: "",
+                projectId: "fire1-2c085",
+                storageBucket: "fire1-2c085.appspot.com",
+                messagingSenderId: "228703666474",
+                appId: "1:228703666474:web:3bacd2b08daf85a79cde53",
+                measurementId: "G-8V89TB50QY"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            
+            // Initialize Firestore and create new document in users collection
+            var db = firebase.firestore();
+            
+            function addUser(email, firstName, lastName, password){
+                var userRef = db.collection('users').doc(email);
+                userRef.set({
+                    first_name: firstName,
+                    last_name: lastName,
+                    email: email,
+                    password: password
+                })
+                    .then(function(docRef) {
+                    console.log("Document written with ID: ", userRef.id);
+                })
+                    .catch(function(error) {
+                    console.error("Error adding document: ", error);
+                });
+            }
+            
+            function updateUserBio(email, description, address, facebookProfile, twitterProfile, otherSocialProfile, isUserLandlord, profilePicture) {
+                var userRef = db.collection('users').doc(email);
+                userRef.update({
+                    bio_description: description,
+                    current_address: address,
+                    facebook_url: facebookProfile,
+                    twitter_url: twitterProfile,
+                    other_social_url: otherSocialProfile,
+                    is_user_landlord: isUserLandlord,
+                    profile_picture: profilePicture,
+                    profile_search_tags: [],
+                    saved_search_filters: []
+                })
+                    .then(function(docRef) {
+                    console.log("Document updated with ID: ", userRef.id);
+                })
+                    .catch(function(error) {
+                    console.error("Error updating document: ", error);
+                });
+            }
+            
+            function addProfileSearchTag(email, tagName, tagValue){
+                var userRef = db.collection('users').doc(email);
+                var searchTag =  {};
+                searchTag[tagName] = tagValue;
+                console.log(searchTag)
+                userRef.update({
+                    profile_search_tags: firebase.firestore.FieldValue.arrayUnion(searchTag)
+                });
+            }
+            
+            function addSearchFilter(email, filterName, filterValue){
+                var userRef = db.collection('users').doc(email);
+                var searchFilter = {};
+                searchFilter[filterName] = filterValue;
+                userRef.update({
+                    saved_search_filters: firebase.firestore.FieldValue.arrayUnion(searchFilter)
+                })
+            }
+            
+            addUser('michael_lam@hotmail.com', 'Michael', 'Lam', "12345");
+            updateUserBio('michael_lam@hotmail.com', "I'm a 3rd year UBC math student. I enjoy playing video games and Settlers of Catan",
+                      "4210 Georgia St, Vancouver BC", "", "", "", false,
+                      "www.example.com/me.jpg");
+            
+            addProfileSearchTag("michael_lam@hotmail.com", "University/College Student", true);
+            addSearchFilter("michael_lam@hotmail.com", "Ok with pets", true);
+        
+            
+
+        
+
+        
+
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
