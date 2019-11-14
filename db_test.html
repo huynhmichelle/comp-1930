@@ -31,13 +31,12 @@
             // Initialize Firestore and create new document in users collection
             var db = firebase.firestore();
             
-            function addUser(email, firstName, lastName, password){
-                var userRef = db.collection('users').doc(email);
+            function addUser(userId, email, firstName, lastName){
+                var userRef = db.collection('users').doc(userId);
                 userRef.set({
                     first_name: firstName,
                     last_name: lastName,
-                    email: email,
-                    password: password
+                    email: email
                 })
                     .then(function(docRef) {
                     console.log("Document written with ID: ", userRef.id);
@@ -47,8 +46,8 @@
                 });
             }
             
-            function updateUserBio(email, description, address, facebookProfile, twitterProfile, otherSocialProfile, isUserLandlord, profilePicture) {
-                var userRef = db.collection('users').doc(email);
+            function updateUserBio(userId, description, address, facebookProfile, twitterProfile, otherSocialProfile, isUserLandlord, profilePicture) {
+                var userRef = db.collection('users').doc(userId);
                 userRef.update({
                     bio_description: description,
                     current_address: address,
@@ -68,8 +67,8 @@
                 });
             }
             
-            function addProfileSearchTag(email, tagName, tagValue){
-                var userRef = db.collection('users').doc(email);
+            function addProfileSearchTag(userId, tagName, tagValue){
+                var userRef = db.collection('users').doc(userId);
                 var searchTag =  {};
                 searchTag[tagName] = tagValue;
                 console.log(searchTag)
@@ -78,8 +77,8 @@
                 });
             }
             
-            function addSearchFilter(email, filterName, filterValue){
-                var userRef = db.collection('users').doc(email);
+            function addSearchFilter(userId, filterName, filterValue){
+                var userRef = db.collection('users').doc(userId);
                 var searchFilter = {};
                 searchFilter[filterName] = filterValue;
                 userRef.update({
@@ -87,14 +86,54 @@
                 })
             }
             
-            addUser('michael_lam@hotmail.com', 'Michael', 'Lam', "12345");
-            updateUserBio('michael_lam@hotmail.com', "I'm a 3rd year UBC math student. I enjoy playing video games and Settlers of Catan",
+            //5xOks1K02HR5PskNlj2G4Wzalud2
+            
+            /*
+            addUser('uIsfld7BxwP0iIeMpI4Koh6Jmci1', 'michael_lam@hotmail.com', 'Michael', 'Lam', "12345");
+            updateUserBio('uIsfld7BxwP0iIeMpI4Koh6Jmci1', "I'm a 3rd year UBC math student. I enjoy playing video games and Settlers of Catan",
                       "4210 Georgia St, Vancouver BC", "", "", "", false,
                       "www.example.com/me.jpg");
             
-            addProfileSearchTag("michael_lam@hotmail.com", "University/College Student", true);
-            addSearchFilter("michael_lam@hotmail.com", "Ok with pets", true);
-        
+            addProfileSearchTag('uIsfld7BxwP0iIeMpI4Koh6Jmci1', "University/College Student", true);
+            addSearchFilter('uIsfld7BxwP0iIeMpI4Koh6Jmci1', "Ok with pets", true);
+            */
+            
+            
+            /*
+            for(x of [1,2,3,4,5,6,7,8]){
+                var rentalsRef = db.collection('rentals');
+                rentalsRef.add({
+                    rental_id: x,
+                    rent_price: x*2*100,
+                    pets_ok: x % 2 == 0 ? true : false,
+                    student_tenant: x % 3 == 0 ? true : false,
+                    num_roommates: x > 4 ? x-5 : 4-x
+                })
+            }
+            */
+            
+            
+            
+            var dbRef =  db.collection('rentals').get().then( function(querySnapshot) {
+                //console.log(typeof(querySnapshot));
+                //console.log(querySnapshot);
+                let results = [];
+                querySnapshot.forEach( function(doc) {
+                    results.push(doc.data());
+                })
+                let filtered = results.filter( a=>a['pets_ok'] && !a['student_tenant'] && a['num_roommates']>1 ).sort(function(a,b){return a.rent_price-b.rent_price});
+                console.log(filtered);
+              })
+            
+            
+            
+            /*
+            addUser('5xOks1K02HR5PskNlj2G4Wzalud2', 'test@example.com', 'Test', 'User');
+            updateUserBio('5xOks1K02HR5PskNlj2G4Wzalud2', "This test a user bio.",
+                      "123 Abc St Vancouver BC", "", "", "", false,
+                      "www.example.com/me.jpg");
+            */
+            
             
 
         
