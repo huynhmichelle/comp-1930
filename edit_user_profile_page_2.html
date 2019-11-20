@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link type="text/css" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    #divstyle {
+        background-color:#D1DBE0;
+      }
+      #buttonstyle {
+          float:left;
+      }
+      #img_float {
+        float:right;
+      }
+      .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 2;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            }
+        .sidebar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+            }
+        .sidebar a:hover {
+            color: #f1f1f1;
+            }
+        .sidebar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            }
+        .openbtn {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #111;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            }
+        .openbtn:hover {
+            background-color: #444;
+            }
+        #main {
+            transition: margin-left .5s;
+            padding: 16px;
+            }
+        /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+        @media screen and (max-height: 450px) {
+            .sidebar {padding-top: 15px;}
+            .sidebar a {font-size: 18px;}
+            }
+        .headerstyle {
+            background-color: #234567;
+        }
+        body {
+            background-color: #D1DBE0;
+        }
+        .navbar-header {
+            float: left;
+            padding: 15px;
+            text-align: center;
+            width: 100%;
+            }
+        .navbar-brand {
+            float:none;
+            }
+  </style>
+  <title>Edit user profile</title>
+</head>
+<body>
+  <nav id="navbar-site" class="navbar navbar-dark headerstyle navbar-expand-sm">
+        <div class="navbar-header">
+            <div id="main;buttonstyle">
+                    <button class="openbtn" onclick="openNav()" style="float:left">☰</button>  
+                </div>
+        <div class="container">
+                <a href="#"><img src="./images/user-2.png" width="65px", height="65px" id="img_float"></a>
+                <a class="navbar-brand" href="#"style="font-size:40px">APP NAME</a>
+                    <div id="img_float">
+                        <a href="#"><img src="./images/mail-2.png" width="35px", height="35px"></a><br>
+                        <a href="#"><img src="./images/bell-2.png" width="35px", height="35px"></a>
+                    </div>
+                </div>
+                <div id="mySidebar" class="sidebar">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                    <a href="#">Homepage</a>
+                    <a href="#">User profile</a>
+                    <a href="#">About us</a>
+                    <a href="#">FAQ</a>
+                    <a href="#">Contact us</a>
+                    <a href="#">Logout</a>
+                </div>
+        </div>
+        </div>
+  </nav>
+<div class="container">
+    <h2>Edit your user profile</h2>
+    <legend>Add search filters to your profile</legend>
+    <label>Help other potential roommates find you by selecting filter tags to add to your profile.</label>
+    <div class="container">
+      <div class="row">
+        <fieldset class="col-sm-6">
+            <div class="form-group">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox"> OK with pets
+                  </label>
+                </div><!-- form-check -->
+          
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox"> Post-secondary student
+                  </label>
+                </div><!-- form-check -->
+          
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox"> Another tag
+                  </label>
+                </div><!-- form-check -->
+              </div><!-- form-group -->
+        </fieldset>
+        <fieldset class="col-sm-6">
+          <div class="form-group">
+              <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox"> Another tag
+                  </label>
+                </div><!-- form-check -->
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    <a href="edit_user_profile.html"><button class="btn btn-primary" type="submit">Back</button></a>
+    <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+    </fieldset><!-- fieldset -->
+</div>
+</body>
+<script>
+  function openNav() {
+          document.getElementById("mySidebar").style.width = "250px";
+          document.getElementById("main").style.marginLeft = "250px";
+        }
+        
+        function closeNav() {
+          document.getElementById("mySidebar").style.width = "0";
+          document.getElementById("main").style.marginLeft= "0";
+        }
+</script>
+        
