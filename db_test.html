@@ -112,13 +112,16 @@
             }
             */
             
+            // Get all rentals where pets are ok and the rent price is less than or equal to $850
             db.collection('rentals').where('pets_ok', '==', true).where('rent_price', '<=', 850)
                 .get()
                 .then(function(querySnapshot) {
+                // Log each document's data to console for testing
                 querySnapshot.forEach(function(doc) {
                     console.log(doc.id, " => ", doc.data());
                 });
             })
+                // Something went wrong, catch and print the error
                 .catch(function(error) {
                 console.log("Error getting documents: ", error);
             });
