@@ -112,8 +112,19 @@
             }
             */
             
+            db.collection('rentals').where('pets_ok', '==', true).where('rent_price', '<=', 850)
+                .get()
+                .then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    console.log(doc.id, " => ", doc.data());
+                });
+            })
+                .catch(function(error) {
+                console.log("Error getting documents: ", error);
+            });
             
             
+            /*
             var dbRef =  db.collection('rentals').get().then( function(querySnapshot) {
                 //console.log(typeof(querySnapshot));
                 //console.log(querySnapshot);
@@ -124,9 +135,9 @@
                 let filtered = results.filter( a=>a['pets_ok'] && !a['student_tenant'] && a['num_roommates']>1 ).sort(function(a,b){return a.rent_price-b.rent_price});
                 console.log(filtered);
               })
+              */
             
-            
-            
+
             /*
             addUser('5xOks1K02HR5PskNlj2G4Wzalud2', 'test@example.com', 'Test', 'User');
             updateUserBio('5xOks1K02HR5PskNlj2G4Wzalud2', "This test a user bio.",
