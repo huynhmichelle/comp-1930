@@ -10,8 +10,11 @@
         <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
         <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-storage.js"></script>
     </head>
     <body>
+        <input id="myInput" type="file"> 
+        <button id="myBtn">Upload</button>
         <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
         <script>
             // Your web app's Firebase configuration
@@ -99,19 +102,6 @@
             */
             
             
-            /*
-            for(x of [1,2,3,4,5,6,7,8]){
-                var rentalsRef = db.collection('rentals');
-                rentalsRef.add({
-                    rental_id: x,
-                    rent_price: x*2*100,
-                    pets_ok: x % 2 == 0 ? true : false,
-                    student_tenant: x % 3 == 0 ? true : false,
-                    num_roommates: x > 4 ? x-5 : 4-x
-                })
-            }
-            */
-            
             // Get all rentals where pets are ok and the rent price is less than or equal to $850
             db.collection('rentals').where('pets_ok', '==', true).where('rent_price', '<=', 850)
                 .get()
@@ -125,6 +115,84 @@
                 .catch(function(error) {
                 console.log("Error getting documents: ", error);
             });
+            
+            // Create a root reference
+            var storageRef = firebase.storage().ref();
+
+            let userImgPath = '/user.png';
+            let rentalImgPath = '/images/house2.svg';
+
+            // Create a reference to storage paths
+            var userAvatar = storageRef.child(userImgPath);
+            var rentalAvatar = storageRef.child(rentalImgPath);
+            var urlRef = storageRef.child(rentalImgPath);
+            
+            document.getElementById("myBtn").addEventListener("click", function() {
+                uploadFile();
+            }); 
+
+            
+            function uploadFile(){
+                var f = document.querySelector('input').files[0];
+                var reader = new FileReader();
+                reader.onload = processFile(f);
+                reader.readAsDataURL(f);
+            }
+        
+
+            // I don't understand this but it works
+            function processFile(file){
+                return function(e) {
+                    fetch(e.target.result)
+                    .then(function(res){
+                        urlRef.put(res.blob()).then(function(snapshot) {
+                            console.log(snapshot);
+                            console.log('Uploaded userAvatar! (?)');
+                        })
+                    }
+                    )
+                }
+            }
+            
+            /*
+            function processFile(file){
+                return function(e) { 
+                    let res = e.target.result
+                    userAvatar.put(res.blob()).then(function(snapshot) {
+                        console.log(snapshot);
+                        console.log('Uploaded userAvatar! (?)');
+                    })
+                }
+            }
+            */
+
+            function randInt(min, max){
+                return(Math.floor(Math.random() * (+max - +min)) + +min); 
+            }
+            
+            let dates = ['Dec 1 2019', 'Jan 1 2020', 'Feb 1 2020', 'Mar 1 2020'];
+            let x = 1;
+            while(x < 12){
+                var rentalsRef = db.collection('rentals');
+                let d = dates[randInt(0, dates.length)];
+                rentalsRef.add({
+                    rental_id: x,
+                    rent_price: x*2*100,
+                    pets_ok: randInt(1,4) == 1 ? true : false,
+                    student_tenant: randInt(1,3) == 1 ? true : false,
+                    employed_tenant: x % 4 == 0 ? true : false,
+                    // listing_img: x % 4 == 0 ? userImgPath : rentalImgPath,
+                    roommates: randInt(0,3),
+                    rooms_available: randInt(1,3),
+                    date_available: d,
+                })
+                x ++;
+            }
+            
+            // rooms and roommates
+            // rooms must be >= 1
+            // roommates can be 0 to n
+            // independent
             
             
             /*
