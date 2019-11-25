@@ -10,9 +10,6 @@
       #divstyle {
         background-color:#D1DBE0;
       }
-      #buttonstyle {
-          float:left;
-      }
       #img_float {
         float:right;
       }
@@ -81,17 +78,20 @@
         .navbar-brand {
             float:none;
             }
+        .file-field.medium .file-path-wrapper {
+            height: 3rem; 
+        }
   </style>
   <title>Edit user profile</title>
 </head>
 <body>
     <nav id="navbar-site" class="navbar navbar-dark headerstyle navbar-expand-sm">
         <div class="navbar-header">
-            <div id="main;buttonstyle">
+            <div id="main">
                     <button class="openbtn" onclick="openNav()" style="float:left">☰</button>  
                 </div>
         <div class="container">
-                <a href="#"><img src="./images/user-2.png" width="65px", height="65px" id="img_float"></a>
+                <a href="user_profile.html"><img src="./images/user-2.png" width="65px", height="65px" id="img_float"></a>
                 <a class="navbar-brand" href="#"style="font-size:40px">APP NAME</a>
                     <div id="img_float">
                         <a href="#"><img src="./images/mail-2.png" width="35px", height="35px"></a><br>
@@ -130,7 +130,7 @@
            <textarea class="form-control" id="bio" rows="3"></textarea>
     </div>
 
-    <legend>Upload photo</legend>
+    <legend>Upload user profile photo</legend>
     <div class="form-group">
         <div class="input-group">
             <div class="input-group-prepend">
@@ -139,10 +139,10 @@
                 <div class="custom-file">
                 <input type="file" class="custom-file-input" id="inputGroupFile01"
                         aria-describedby="inputGroupFileAddon01">
-                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                <label class="custom-file-label" for="inputGroupFile01">Choose photo</label>
                 </div>
             </div>
-        </div>
+    </div>
     <a href="edit_user_profile_page_2.html"><button class="btn btn-primary" type="next_page" id="nextpage">Next page</button></a>
     </div>
     </fieldset><!-- fieldset -->
