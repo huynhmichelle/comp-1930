@@ -81,6 +81,18 @@
         .file-field.medium .file-path-wrapper {
             height: 3rem; 
         }
+        input:invalid {
+            border: 1px dashed red;
+            }
+        input:valid {
+            border: 1px solid black;
+            }
+        textarea:invalid {
+            border: 1px dashed red;
+            }
+        textarea:valid {
+            border: 1px solid black;
+            }
   </style>
   <title>Edit user profile</title>
 </head>
@@ -112,31 +124,32 @@
     </nav>
     
 <div class="container">
+    <form>
     <div>
     <h2>Edit your user profile</h2>
     </div>
     <legend>General user info</legend>
     <div class="form-group">
             <label class="form-control-label" for="first_name">First name</label>
-            <input class="form-control" type="text" id="first_name" placeholder="Your first name">
+            <input class="form-control" type="text" id="first_name" placeholder="Your first name" required>
 
             <label class="form-control-label" for="last_name">Last name</label>
-            <input class="form-control" type="text" id="last_name" placeholder="Your last name">
+            <input class="form-control" type="text" id="last_name" placeholder="Your last name" required>
     </div>
 
     <legend>Current address</legend>
     <div class="form-group">
-            <input class="form-control" type="text" id="first_name" placeholder="Street address">
-            <input class="form-control" type="text" id="first_name" placeholder="City">
-            <input class="form-control" type="text" id="first_name" placeholder="Province/state">
-            <input class="form-control" type="text" id="first_name" placeholder="Country">
-            <input class="form-control" type="text" id="first_name" placeholder="Postal code/zip code">
+            <input class="form-control" type="text" id="first_name" placeholder="Street address" required>
+            <input class="form-control" type="text" id="first_name" placeholder="City" required>
+            <input class="form-control" type="text" id="first_name" placeholder="Province/state" required>
+            <input class="form-control" type="text" id="first_name" placeholder="Country" required>
+            <input class="form-control" type="text" id="first_name" placeholder="Postal code/zip code" required>
     </div>
 
     <legend>Edit your bio</legend>
     <div class="form-group">
            <label class="form-control-label" for="bio">Please write the description for your user profile.</label>
-           <textarea class="form-control" id="bio" rows="3"></textarea>
+           <textarea class="form-control" id="bio" rows="3" required></textarea>
     </div>
 
     <legend>Upload user profile photo</legend>
@@ -154,7 +167,7 @@
     </div>
     <a href="edit_user_profile_page_2.html"><button class="btn btn-primary" type="next_page" id="nextpage">Next page</button></a>
     </div>
-    </fieldset><!-- fieldset -->
+    </form>
 </div>
 <script>
         function openNav() {
