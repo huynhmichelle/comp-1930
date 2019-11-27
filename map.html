@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title>Display a map</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <!--Mapbox-->
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' type='text/css' />
+    <!--Firebase-->
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-storage.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .geocoder {
+            position: absolute;
+            z-index: 1;
+            width: 50%;
+            left: 50%;
+            margin-left: -25%;
+            top: 20px;
+        }
+
+        .mapboxgl-ctrl-geocoder {
+            min-width: 80%;
+        }
+
+        .mapboxgl-popup {
+            max-width: 400px;
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='map' style="width:80%; height:80%; margin:auto;"></div>
+    <div id='geocoder' class='geocoder'></div>
+
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
+    <script>
+        // FIREBASE
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCOl7zfOtE5H75WPViBv-jNxn9nZLhHNFo",
+            authDomain: "fire1-2c085.firebaseapp.com",
+            databaseURL: "",
+            projectId: "fire1-2c085",
+            storageBucket: "fire1-2c085.appspot.com",
+            messagingSenderId: "228703666474",
+            appId: "1:228703666474:web:3bacd2b08daf85a79cde53",
+            measurementId: "G-8V89TB50QY"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Initialize Firestore
+        var db = firebase.firestore();
+        var dataPoints = [];
+        function getData() {
+            db.collection('rentals')
+                .get()
+                .then(function (querySnapshot) {
+                    querySnapshot.forEach(function (doc) {
+                        //console.log(doc);
+                        dataPoints.push({
+                            'id': doc.data().rental_id,
+                            'coords': doc.data().long_lat,
+                        });
+                    });
+                    console.log('finished for each');
+                })
+                .then(r => {
+                    initMap();
+                })
+                .catch(function (error) {
+                    console.log("Error getting documents: ", error);
+                });
+        }
+        getData();
+    </script>
+
+    <script>
+        function initMap() {
+            // MAPBOX
+            mapboxgl.accessToken = 'pk.eyJ1Ijoib3BhbDkiLCJhIjoiY2szYjB4djJnMDZmcjNicGl2NzJreGtjbiJ9.evKRAMb-mO-4VEmgWjLuEw';
+            var map = new mapboxgl.Map({
+                container: 'map', // container id
+                style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location  'mapbox://styles/mapbox/light-v10',
+                center: [-123.09817, 49.23340], // starting position [lng, lat]   center: [-96, 37.8],
+                zoom: 11 // starting zoom
+            });
+
+            var marker = new mapboxgl.Marker() // initialize a new marker
+                .setLngLat([-483.115942, 49.283661]) // Marker [lng, lat] coordinates
+                .addTo(map); // Add the marker to the map
+
+            // BCIT downtown: -483.115942, 49.283661
+
+            var geocoder = new MapboxGeocoder({ // Initialize the geocoder
+                accessToken: mapboxgl.accessToken, // Set the access token
+                mapboxgl: mapboxgl, // Set the mapbox-gl instance
+                marker: true, // Don't use the default marker
+            });
+
+            // Add the geocoder to the map
+            // map.addControl(geocoder);
+
+            // After the map style has loaded on the page,
+            // add a source layer and default styling for a single point
+
+            map.on('load', function () {
+                map.addSource('single-point', {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: []
+                    }
+                });
+                map.addLayer({
+                    id: 'point',
+                    source: 'single-point',
+                    type: 'circle',
+                    paint: {
+                        'circle-radius': 10,
+                        'circle-color': '#448ee4'
+                    }
+                });
+
+                // Listen for the `result` event from the Geocoder
+                // `result` event is triggered when a user makes a selection
+                //  Add a marker at the result's coordinates
+                geocoder.on('result', function (e) {
+                    map.getSource('single-point').setData(e.result.geometry);
+                });
+
+                map.loadImage('https://i.imgur.com/xtCe9Yu.png', function (error, image) {
+                    if (error) throw error;
+                    map.addImage('myMarker', image);
+                });
+
+                var newFeatures = [];
+                //console.log(dataPoints);
+                //console.log(dataPoints.length);
+                for (x of dataPoints) {
+                    console.log(x.coords);
+                    let o = new Object();
+                    let desc = `<p>description for rental ${x.id}</p><a href="http://www.appname.com" target="_blank"</a>`;
+                    o.type = 'Feature',
+                    o.properties = { description: desc, icon: 'marker' },
+                    o.geometry = { type: 'Point', coordinates: x.coords },
+                    newFeatures.push(o);
+                }
+
+                console.log(newFeatures);
+                map.addLayer({
+                    "id": "places",
+                    "type": "symbol",
+                    "source": {
+                        "type": "geojson",
+                        "data": {
+                            "type": "FeatureCollection",
+                            "features": newFeatures,
+                            // "features": [
+                            //     {
+                            //         "type": "Feature",
+                            //         "properties": {
+                            //             "description": "<strong>Make it Mount Pleasant</strong><p><a href=\"http://www.mtpleasantdc.com/makeitmtpleasant\" target=\"_blank\" title=\"Opens in a new window\">Make it Mount Pleasant</a> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>",
+                            //             "icon": "marker"
+                            //         },
+                            //         "geometry": {
+                            //             "type": "Point",
+                            //             "coordinates": [-483.112839, 49.249341]
+                            //         }
+                            //     }, {
+                            //         "type": "Feature",
+                            //         "properties": {
+                            //             "description": "<strong>Mad Men Season Five Finale Watch Party</strong><p>Head to Lounge 201 (201 Massachusetts Avenue NE) Sunday for a <a href=\"http://madmens5finale.eventbrite.com/\" target=\"_blank\" title=\"Opens in a new window\">Mad Men Season Five Finale Watch Party</a>, complete with 60s costume contest, Mad Men trivia, and retro food and drink. 8:00-11:00 p.m. $10 general admission, $20 admission and two hour open bar.</p>",
+                            //             "icon": "marker"
+                            //         },
+                            //         "geometry": {
+                            //             "type": "Point",
+                            //             "coordinates": [-482.995475, 49.270179],
+                            //         }
+                            //     }]
+                        }
+                    },
+                    "layout": {
+                        "icon-image": "myMarker",
+                        "icon-allow-overlap": true,
+                        "icon-size": 0.15
+                    }
+                });
+
+                // When a click event occurs on a feature in the places layer, open a popup at the
+                // location of the feature, with description HTML from its properties.
+                map.on('click', 'places', function (e) {
+                    var coordinates = e.features[0].geometry.coordinates.slice();
+                    var description = e.features[0].properties.description;
+
+                    // Ensure that if the map is zoomed out such that multiple
+                    // copies of the feature are visible, the popup appears
+                    // over the copy being pointed to.
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+                    new mapboxgl.Popup()
+                        .setLngLat(coordinates)
+                        .setHTML(description)
+                        .addTo(map);
+                });
+
+                // Change the cursor to a pointer when the mouse is over the places layer.
+                map.on('mouseenter', 'places', function () {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+
+                // Change it back to a pointer when it leaves.
+                map.on('mouseleave', 'places', function () {
+                    map.getCanvas().style.cursor = '';
+                });
+
+            });
+            document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+        }
+    </script>
+
+</body>
+</html>

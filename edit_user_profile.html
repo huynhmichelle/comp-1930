@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <link type="text/css" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <style>
-      #divstyle {
-        background-color:#D1DBE0;
-      }
-      #img_float {
-        float:right;
-      }
-      .sidebar {
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link type="text/css" rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        #divstyle {
+            background-color: #D1DBE0;
+        }
+
+        #img_float {
+            float: right;
+        }
+
+        .sidebar {
             height: 100%;
             width: 0;
             position: fixed;
@@ -24,7 +28,8 @@
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
-            }
+        }
+
         .sidebar a {
             padding: 8px 8px 8px 32px;
             text-decoration: none;
@@ -32,17 +37,20 @@
             color: #818181;
             display: block;
             transition: 0.3s;
-            }
+        }
+
         .sidebar a:hover {
             color: #f1f1f1;
-            }
+        }
+
         .sidebar .closebtn {
             position: absolute;
             top: 0;
             right: 25px;
             font-size: 36px;
             margin-left: 50px;
-            }
+        }
+
         .openbtn {
             font-size: 20px;
             cursor: pointer;
@@ -50,134 +58,154 @@
             color: white;
             padding: 10px 15px;
             border: none;
-            }
+        }
+
         .openbtn:hover {
             background-color: #444;
-            }
+        }
+
         #main {
             transition: margin-left .5s;
             padding: 16px;
-            }
+        }
+
         /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
         @media screen and (max-height: 450px) {
-            .sidebar {padding-top: 15px;}
-            .sidebar a {font-size: 18px;}
+            .sidebar {
+                padding-top: 15px;
             }
+
+            .sidebar a {
+                font-size: 18px;
+            }
+        }
+
         .headerstyle {
             background-color: #234567;
         }
+
         body {
             background-color: #D1DBE0;
         }
+
         .navbar-header {
             float: left;
             padding: 15px;
             text-align: center;
             width: 100%;
-            }
-        .navbar-brand {
-            float:none;
-            }
-        .file-field.medium .file-path-wrapper {
-            height: 3rem; 
         }
+
+        .navbar-brand {
+            float: none;
+        }
+
+        .file-field.medium .file-path-wrapper {
+            height: 3rem;
+        }
+
         input:invalid {
             border: 1px dashed red;
-            }
+        }
+
         input:valid {
             border: 1px solid black;
-            }
+        }
+
         textarea:invalid {
             border: 1px dashed red;
-            }
+        }
+
         textarea:valid {
             border: 1px solid black;
-            }
-  </style>
-  <title>Edit user profile</title>
+        }
+
+        .section-heading {
+            font-weight: bold;
+        }
+    </style>
+    <title>Edit Profile</title>
 </head>
+
 <body>
     <nav id="navbar-site" class="navbar navbar-dark headerstyle navbar-expand-sm">
         <div class="navbar-header">
             <div id="main">
-                    <button class="openbtn" onclick="openNav()" style="float:left">☰</button>  
+                <button class="openbtn" onclick="openNav()" style="float:left">☰</button>
+            </div>
+            <div class="container">
+                <a href="user_profile.html"><img src="./images/user-2.png" width="65px" , height="65px"
+                        id="img_float"></a>
+                <a class="navbar-brand" href="#" style="font-size:40px">APP NAME</a>
+                <div id="img_float">
+                    <a href="#"><img src="./images/mail-2.png" width="35px" , height="35px"></a><br>
+                    <a href="#"><img src="./images/bell-2.png" width="35px" , height="35px"></a>
                 </div>
-        <div class="container">
-                <a href="user_profile.html"><img src="./images/user-2.png" width="65px", height="65px" id="img_float"></a>
-                <a class="navbar-brand" href="#"style="font-size:40px">APP NAME</a>
-                    <div id="img_float">
-                        <a href="#"><img src="./images/mail-2.png" width="35px", height="35px"></a><br>
-                        <a href="#"><img src="./images/bell-2.png" width="35px", height="35px"></a>
-                    </div>
-                </div>
-                <div id="mySidebar" class="sidebar">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-                    <a href="#">Homepage</a>
-                    <a href="#">User profile</a>
-                    <a href="#">About us</a>
-                    <a href="#">FAQ</a>
-                    <a href="#">Contact us</a>
-                    <a href="#">Logout</a>
-                </div>
+            </div>
+            <div id="mySidebar" class="sidebar">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                <a href="#">Homepage</a>
+                <a href="#">User profile</a>
+                <a href="#">About us</a>
+                <a href="#">FAQ</a>
+                <a href="#">Contact us</a>
+                <a href="#">Logout</a>
+            </div>
         </div>
         </div>
     </nav>
-    
-<div class="container">
-    <form>
-    <div>
-    <h2>Edit your user profile</h2>
-    </div>
-    <legend>General user info</legend>
-    <div class="form-group">
-            <label class="form-control-label" for="first_name">First name</label>
-            <input class="form-control" type="text" id="first_name" placeholder="Your first name" required>
 
-            <label class="form-control-label" for="last_name">Last name</label>
-            <input class="form-control" type="text" id="last_name" placeholder="Your last name" required>
-    </div>
-
-    <legend>Current address</legend>
-    <div class="form-group">
-            <input class="form-control" type="text" id="first_name" placeholder="Street address" required>
-            <input class="form-control" type="text" id="first_name" placeholder="City" required>
-            <input class="form-control" type="text" id="first_name" placeholder="Province/state" required>
-            <input class="form-control" type="text" id="first_name" placeholder="Country" required>
-            <input class="form-control" type="text" id="first_name" placeholder="Postal code/zip code" required>
-    </div>
-
-    <legend>Edit your bio</legend>
-    <div class="form-group">
-           <label class="form-control-label" for="bio">Please write the description for your user profile.</label>
-           <textarea class="form-control" id="bio" rows="3" required></textarea>
-    </div>
-
-    <legend>Upload user profile photo</legend>
-    <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+    <div style="margin-bottom: 2em;" class="container">
+        <form>
+            <div>
+                <h2 style="font-weight: bolder; margin-top: 1em;">Edit Profile</h2>
             </div>
-                <div class="custom-file">
-                <input type="file" class="custom-file-input" id="inputGroupFile01"
-                        aria-describedby="inputGroupFileAddon01">
-                <label class="custom-file-label" for="inputGroupFile01">Choose photo</label>
+            <legend class="section-heading">General</legend>
+            <div class="form-group">
+                <label class="form-control-label" for="first_name">First name</label>
+                <input class="form-control" type="text" id="first_name" placeholder="Your first name" required>
+                <label class="form-control-label" for="last_name">Last name</label>
+                <input class="form-control" type="text" id="last_name" placeholder="Your last name" required>
+            </div>
+
+            <legend class="section-heading">Current Address</legend>
+            <div class="form-group">
+                <input class="form-control" type="text" id="first_name" placeholder="Street address" required>
+                <input class="form-control" type="text" id="first_name" placeholder="City" required>
+                <input class="form-control" type="text" id="first_name" placeholder="Province/state" required>
+                <input class="form-control" type="text" id="first_name" placeholder="Country" required>
+                <input class="form-control" type="text" id="first_name" placeholder="Postal code/zip code" required>
+            </div>
+
+            <legend class="section-heading">Bio Description</legend>
+            <div class="form-group">
+                <label class="form-control-label" for="bio">Please write a description for your profile page.</label>
+                <textarea class="form-control" id="bio" rows="3" required></textarea>
+            </div>
+
+            <legend class="section-heading">Upload Photo</legend>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01"
+                            aria-describedby="inputGroupFileAddon01">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose photo</label>
+                    </div>
                 </div>
             </div>
+            <a href="edit_user_profile_page_2.html"><button style="margin-top: 1em;" class="btn btn-primary" type="next_page" id="nextpage">Next page</button></a>
+        </form>            
     </div>
-    <a href="edit_user_profile_page_2.html"><button class="btn btn-primary" type="next_page" id="nextpage">Next page</button></a>
-    </div>
-    </form>
-</div>
-<script>
+    
+    <script>
         function openNav() {
-          document.getElementById("mySidebar").style.width = "250px";
-          document.getElementById("main").style.marginLeft = "250px";
+            document.getElementById("mySidebar").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
         }
-        
         function closeNav() {
-          document.getElementById("mySidebar").style.width = "0";
-          document.getElementById("main").style.marginLeft= "0";
+            document.getElementById("mySidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
         }
-</script>
-        
+    </script>

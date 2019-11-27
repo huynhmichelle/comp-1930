@@ -1,102 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Login</title>
-        <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css"/>
-        <link type="text/css" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-        <link type="text/css" rel="stylesheet"href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css"/>
-        <style>
-            #title{
-                background-color: #D1DBE0;
-                text-align: center;
-                margin-left: 150px;
-                margin-right: 150px;
-            }
-            #firebaseui-auth-container{
-                background-color:#D1DBE0; 
-                margin: 50px 250px 50px 250px;
-                padding: 50px;
-            }
-            body {
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Login</title>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    <link type="text/css" rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    <style>
+        #title {
+            background-color: #D1DBE0;
+            text-align: center;
+            margin-left: 150px;
+            margin-right: 150px;
+        }
+
+        #firebaseui-auth-container {
+            background-color: #D1DBE0;
+            margin: 50px 250px 50px 250px;
+            padding: 50px;
+        }
+
+        body {
             height: 100%;
             display: -ms-flexbox;
             display: flex;
             color: #111;
             background-color: #234567;
             box-shadow: outset 0 0 5rem rgba(0, 0, 0, .5);
-            }
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <script src="scripts/firebase_login.js"></script>
+</head>
 
-        </style>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <!-- The core Firebase JS SDK is always required and must be listed first -->
-        <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
-    </head>
-    <body>
-
-        <!-- The core Firebase JS SDK is always required and must be listed first -->
-        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
-        <!-- The surrounding HTML is left untouched by FirebaseUI.
+<body>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+    <!-- The surrounding HTML is left untouched by FirebaseUI.
         Your app may use that space for branding, controls and other customizations.-->
-        <section class="container" id="firebaseui-auth-container">
-            <div class="row">
-                <article class="col">
-                    <h1 id='title'>Welcome to Appy!</h1>
-                    <div id="loader">Loading...</div>
-                </article>
-        <!--<div id="firebaseui-auth-container", class="container">
+    <section class="container" id="firebaseui-auth-container">
+        <div class="row">
+            <article class="col">
+                <h1 id='title'>Welcome to AppName</h1>
+                <div id="loader">Loading...</div>
+            </article>
+            <!--<div id="firebaseui-auth-container", class="container">
             <h1 id='title'>Welcome to Appy!</h1>-->
-            </div>
+        </div>
         <!--<div id="loader", class="container">Loading...</div>-->
-        </section>
-        <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
-        <script>
-            
-            // Your web app's Firebase configuration
-            var firebaseConfig = {
-                apiKey: "AIzaSyCOl7zfOtE5H75WPViBv-jNxn9nZLhHNFo",
-                authDomain: "fire1-2c085.firebaseapp.com",
-                databaseURL: "https://fire1-2c085.firebaseio.com",
-                projectId: "fire1-2c085",
-                storageBucket: "fire1-2c085.appspot.com",
-                messagingSenderId: "228703666474",
-                appId: "1:228703666474:web:3bacd2b08daf85a79cde53",
-                measurementId: "G-8V89TB50QY"
-            };
-            // Initialize Firebase
-            firebase.initializeApp(firebaseConfig);
-            // Initialize the FirebaseUI Widget using Firebase.
-            var ui = new firebaseui.auth.AuthUI(firebase.auth());
-            var uiConfig = {
-                callbacks: {
-                    signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-                        // User successfully signed in.
-                        // Return type determines whether we continue the redirect automatically
-                        // or whether we leave that to developer to handle.
-                        return true;
-                    },
-                    uiShown: function() {
-                        // The widget is rendered.
-                        // Hide the loader.
-                        document.getElementById('loader').style.display = 'none';
-                    }},
-                // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-                signInFlow: 'popup',
-                signInSuccessUrl: 'main.html',
-                signInOptions: [
-                    firebase.auth.EmailAuthProvider.PROVIDER_ID,
-                ],
-                // Terms of service url.
-                tosUrl: '<your-tos-url>',
-                // Privacy policy url.
-                privacyPolicyUrl: '<your-privacy-policy-url>'};
-            // The start method will wait until the DOM is loaded.
-            ui.start('#firebaseui-auth-container', uiConfig);
+    </section>
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
+
+    <script>
+        firebaseLogin();
     </script>
-    </body>
+</body>
+
 </html>
