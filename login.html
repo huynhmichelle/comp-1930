@@ -13,26 +13,77 @@
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
     <style>
         #title {
-            background-color: #D1DBE0;
+            /*background-color: #D1DBE0;*/
             text-align: center;
-            margin-left: 150px;
-            margin-right: 150px;
+            color:white;
         }
 
         #firebaseui-auth-container {
-            background-color: #D1DBE0;
-            margin: 50px 250px 50px 250px;
-            padding: 50px;
+            margin: auto;
+            padding: 70px 0;
         }
 
         body {
             height: 100%;
-            display: -ms-flexbox;
-            display: flex;
             color: #111;
             background-color: #234567;
             box-shadow: outset 0 0 5rem rgba(0, 0, 0, .5);
+            margin: 0;
+            padding: 5px;
         }
+        .sidebar {
+        height: 100%;
+        width: 0px;
+        position: fixed;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        }
+        .sidebar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+            }
+        .sidebar a:hover {
+            color: #f1f1f1;
+            }
+        .sidebar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            }
+        .openbtn {
+            left: 30px;
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #111;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            position: absolute;
+            }
+        .openbtn:hover {
+            background-color: #444;
+            }
+        #main {
+            transition: margin-left .5s;
+            padding-bottom: 15px;
+            }
+            /* top right bottom left
+        /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+        @media screen and (max-height: 450px) {
+            .sidebar {padding-top: 15px;}
+            .sidebar a {font-size: 18px;}
+            }
     </style>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -41,25 +92,45 @@
     <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
     <script src="scripts/firebase_login.js"></script>
 </head>
-
 <body>
+    <div class="navbar-header">
+        <div id="main;buttonstyle">
+            <button class="openbtn" onclick="openNav()" style="float:left">☰</button>  
+        </div>
+            <div class="container">
+                <div id="mySidebar" class="sidebar">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                    <a href="#">Homepage</a>
+                    <a href="#">About us</a>
+                    <a href="#">FAQ</a>
+                    <a href="#">Contact us</a>
+                </div>
+            </div>
+        </div>
+    <div class="container" id="firebaseui-auth-container">
+        <h1 id='title'>Welcome to App Name</h1>
+        <div id="loader">Loading...</div>
+    </div>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
     <!-- The surrounding HTML is left untouched by FirebaseUI.
         Your app may use that space for branding, controls and other customizations.-->
-    <section class="container" id="firebaseui-auth-container">
-        <div class="row">
-            <article class="col">
-                <h1 id='title'>Welcome to AppName</h1>
-                <div id="loader">Loading...</div>
-            </article>
+    
             <!--<div id="firebaseui-auth-container", class="container">
             <h1 id='title'>Welcome to Appy!</h1>-->
-        </div>
         <!--<div id="loader", class="container">Loading...</div>-->
-    </section>
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
-
+    <script>
+        function openNav() {
+          document.getElementById("mySidebar").style.width = "250px";
+          document.getElementById("main").style.marginLeft = "250px";
+        }
+        
+        function closeNav() {
+          document.getElementById("mySidebar").style.width = "0";
+          document.getElementById("main").style.marginLeft= "0";
+        }
+    </script>
     <script>
         firebaseLogin();
     </script>
