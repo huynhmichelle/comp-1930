@@ -1,93 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="logged in main page">
     <title>Main Page</title>
-        <meta charset="utf-8">
-        <meta name="description" content="logged in main page">
-        <title>Main Page!</title>
-        <style>
-        </style>
-        <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
-        <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
-        <link type="text/css" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="styles/header2.css">
-        <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
-    </head>
-    <body>
-       <nav id="navbar-site" class="navbar navbar-dark headerstyle navbar-expand-sm">
-        <div class="navbar-header">
-            <div id="main">
-                    <button class="openbtn" onclick="openNav()" style="float:left">☰</button>  
-                </div>
-        <div class="container">
-                <a href="user_profile.html"><img src="./images/user-2.png" width="65px", height="65px" id="img_float"></a>
-                <a class="navbar-brand" href="#"style="font-size:40px">APP NAME</a>
-                    <div id="img_float">
-                        <a href="#"><img src="./images/mail-2.png" width="35px", height="35px"></a><br>
-                        <a href="#"><img src="./images/bell-2.png" width="35px", height="35px"></a>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    <link type="text/css" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/header2.css">
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+</head>
+<body>
+    <nav id="navbar-site" class="navbar navbar-dark headerstyle navbar-expand-sm">
+            <div class="navbar-header">
+                <div id="main">
+                        <button class="openbtn" onclick="openNav()" style="float:left">☰</button>  
                     </div>
-                </div>
-                <div id="mySidebar" class="sidebar">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-                    <a href="#">Homepage</a>
-                    <a href="#">User profile</a>
-                    <a href="#">About us</a>
-                    <a href="#">FAQ</a>
-                    <a href="#">Contact us</a>
-                    <a href="#">Logout</a>
-                </div>
-        </div>
-        </div>
-  </nav>
-    <!--<div class='welcome'>
-        <p>Welcome to the site!</p>-->
-    </div>
+            <div class="container">
+                    <a class="navbar-brand" href="#"style="font-size:40px;" style="text-align:center">APP NAME</a>
+                    <a href="login.html"><button id="login-button" class="btn btn-lg btn-primary" style="float: right;" type="button">Login</button>
+                    <div id="mySidebar" class="sidebar">
+                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                        <a href="#">Homepage</a>
+                        <a href="#">About us</a>
+                        <a href="#">FAQ</a>
+                        <a href="#">Contact us</a>
+                    </div>
+            </div>
+            </div>
+        </nav>
+<!--<div class='welcome'>
+    <p>Welcome to the site!</p>-->
     <div class="container">
         <br>
         <h2>I am looking for a...</h2>
-        <table class="table table-light table-striped">
-            <tbody>
-                 <tr>
-                     <td>
-                        <div class="custom-control custom-checkbox custom-control-inline">
-                            <input type="checkbox" class="custom-control-input" id="defaultInline1">
-                            <label class="custom-control-label" for="defaultInline1" style="font-size:20px">Roommate</label>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                       <div class="custom-control custom-checkbox custom-control-inline">
-                           <input type="checkbox" class="custom-control-input" id="defaultInline2">
-                           <label class="custom-control-label" for="defaultInline2" style="font-size:20px">Tenant</label>
-                       </div>
-                   </td>
-               </tr>
-               <tr>
-                <td>
-                   <div class="custom-control custom-checkbox custom-control-inline">
-                       <input type="checkbox" class="custom-control-input" id="defaultInline3">
-                       <label class="custom-control-label" for="defaultInline3" style="font-size:20px">Place to live</label>
-                   </div>
-               </td>
-           </tr>
-            </tbody>
-        </table>
-        <br>
-        <div class="input-group">
-            <span class="input-group-prepend">
-                <div class="input-group-text bg-transparent border-right-0">
-                <i class="fa fa-search"></i>
-                </div>
-            </span>
-            <input class="form-control py-2 border-left-0 border" type="search" placeholder="In this location..." style="font-size:20px" id="example-search-input" />
-            <span class="input-group-append">
-                <button class="btn btn-outline-secondary border-left-0 border" type="button">
-                   Search
-                </button>
-            </span>
-        </div>
-    </div>   
+        <div class="container">
+            <table class="table table-light table-striped">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input" id="defaultInline1">
+                                <label class="custom-control-label" for="defaultInline1" style="font-size:20px">Roommate</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input" id="defaultInline2">
+                                    <label class="custom-control-label" for="defaultInline2" style="font-size:20px">Tenant</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input" id="defaultInline3">
+                                <label class="custom-control-label" for="defaultInline3" style="font-size:20px">Place to live</label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <div class="input-group">
+                <span class="input-group-prepend">
+                    <div class="input-group-text bg-transparent border-right-0">
+                        <i class="fa fa-search"></i>
+                    </div>
+                </span>
+                <input class="form-control py-2 border-left-0 border" type="search" placeholder="In this location..." style="font-size:20px" id="example-search-input" />
+                <span class="input-group-append">
+                <button class="btn btn-outline-secondary border-left-0 border" type="button">Search</button>
+                </span>
+            </div>
+            </div>
+        </div>   
         
     <script>
         function openNav() {
@@ -104,9 +102,8 @@
    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
 
     <script>
-      /*
       // Your web app's Firebase configuration
-      var firebaseConfig = {
+      /*var firebaseConfig = {
         apiKey: "AIzaSyCOl7zfOtE5H75WPViBv-jNxn9nZLhHNFo",
         authDomain: "fire1-2c085.firebaseapp.com",
         databaseURL: "https://fire1-2c085.firebaseio.com",
@@ -132,7 +129,7 @@
           }
 });*/
         </script>
-    </body>
+</body>
 </html>
 
 
