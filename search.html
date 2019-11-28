@@ -17,19 +17,26 @@
         input.lrgChkbox {
             transform: scale(2);
         }
+
         .table-striped>tbody>tr:nth-child(odd)>td,
         .table-striped>tbody>tr:nth-child(odd)>th {
             background-color: whitesmoke;
             color: black;
         }
+
         .table-striped>tbody>tr:nth-child(even)>td,
         .table-striped>tbody>tr:nth-child(even)>th {
             background-color: #ECEFF1;
             color: black;
         }
-        #table-len{
+
+        #table-len {
             float: left;
             margin-top: 10px;
+        }
+
+        .user-profile-elements {
+            visibility: hidden;
         }
     </style>
 </head>
@@ -41,13 +48,14 @@
                 <button class="openbtn" onclick="openNav()">☰</button>
             </div>
             <div class="container">
-                <a href="#"><img src="./images/user-2.png" width="70px" , height="70px" class="img_float"></a>
-                <a class="navbar-brand" href="#" style="font-size:40px">APP NAME</a>
-                <div class="img_float">
-                    <a href="#"><img src="./images/mail-2.png" width="35px" height="35px" style="margin-right:5px;"></a><br>
-                    <a href="#"><img src="./images/bell-2.png" width="35px" height="35px" style="margin-right:5px;"></a>
-                </div>
-            </div>
+                    <a class="user-profile-elements" href="user_profile.html"><img src="./images/user-2.png" width="65px", height="65px" id="img_float"></a>
+                    <a class="navbar-brand" href="#"style="font-size:40px">APP NAME</a>
+                        <div id="img_float" class="user-profile-elements">
+                            <a href="#"><img src="./images/mail-2.png" width="35px", height="35px"></a><br>
+                            <a href="#"><img src="./images/bell-2.png" width="35px", height="35px"></a>
+                        </div>
+                        <a href="login.html"><button id="login-button" class="btn btn-lg btn-primary" style="float: right;" type="button">Login</button>
+                    </div>
             <div id="mySidebar" class="sidebar">
                 <div id="sidebarContent" style="width: 250px;">
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
@@ -64,15 +72,15 @@
 
     <div id='results-and-filters' style="width:90%;margin-left:auto;margin-right:auto;margin-top:1%;">
         <div class="filters-dropdown">
-            <button id="dropdownMenuButton" class="btn btn-primary dropdown-toggle" type="button" 
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filters</button>
+            <button id="dropdownMenuButton" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">Filters</button>
             <button id='clear-filters' class="btn btn-secondary" onclick='clearFilters();'>Clear</button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
                 style="border:1px solid black; padding: 10px 0px 50px 50px;font-size: 18px; border-radius: 0 !important;">
                 <div class="d-flex justify-content-center my-4">
                     <form class="range-field w-100" style="font-size:20px;">
-                        <span style="margin-right: 10px;">Budget:</span><input style="border:None;" type="text" id="price-range-text"
-                            value=""><br>
+                        <span style="margin-right: 10px;">Budget:</span><input style="border:None;" type="text"
+                            id="price-range-text" value=""><br>
                         <span>$0 </span>
                         <input id="price-range-input" class="border-0" type="range" min="0" max="1000" value="700"
                             onchange="priceFilterChanged()" />
@@ -111,8 +119,29 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
 
-        // Initialize Firestore and create new document in users collection
+        // Initialize Firestore
         var db = firebase.firestore();
+
+        firebase.auth().onAuthStateChanged(function (user) {
+            console.log('on auth state changed');
+            if (user) {
+                // User is signed in.
+                console.log('LOGGED IN');
+                console.log(user.uid);
+                // Make profile elements visisble when user is logged in
+                const profileElements = document.querySelectorAll('.user-profile-elements');
+                profileElements.forEach(element => {
+                    element.style.visibility = 'visible';
+                });
+                // Hide login button
+                document.getElementById('login-button').style.visibility = 'hidden';
+                
+            } else {
+                console.log('NOT LOGGED IN');
+                // No user is signed in.
+            }
+        });
+
     </script>
 
     <script>
@@ -178,13 +207,13 @@
                 autoWidth: false,
                 data: dataSet,
                 columns: [
-                    { title: 'ID',        data: 'id',              width: '5%' },
-                    { title: 'Price',     data: 'price',           width: '10%' },
-                    { title: 'Pets',      data: 'pets',            width: '10%' },
-                    { title: 'Students',  data: 'student',         width: '10%' },
-                    { title: 'Rooms',     data: 'rooms_available', width: '10%' },
-                    { title: 'Roommates', data: 'roommates',       width: '15%' },
-                    { title: 'Starting',  data: 'date',            width: '40%' },
+                    { title: 'ID', data: 'id', width: '5%' },
+                    { title: 'Price', data: 'price', width: '10%' },
+                    { title: 'Pets', data: 'pets', width: '10%' },
+                    { title: 'Students', data: 'student', width: '10%' },
+                    { title: 'Rooms', data: 'rooms_available', width: '10%' },
+                    { title: 'Roommates', data: 'roommates', width: '15%' },
+                    { title: 'Starting', data: 'date', width: '40%' },
                 ]
             });
 
@@ -208,8 +237,8 @@
             restoreData();
             let filterFunctions = [priceFilterChanged, petsFilterChanged];
             // filterFunctions.filter(f => f==caller);
-            for( f of filterFunctions ){
-                if( f != caller ){ 
+            for (f of filterFunctions) {
+                if (f != caller) {
                     f(false);
                     //console.log(f);
                 }
@@ -220,7 +249,7 @@
             // Restore saved table data
             var table = $('#results').DataTable();
             table.clear().draw();
-            table.rows.add(savedData); 
+            table.rows.add(savedData);
             table.columns.adjust().draw();
         }
 
@@ -241,46 +270,46 @@
     </script>
 
     <script>
-        function priceFilterChanged(refilterFirst=true) {
+        function priceFilterChanged(refilterFirst = true) {
             let val = document.getElementById('price-range-input').value;
             document.getElementById('price-range-text').value = '$' + val;
-            if(refilterFirst){ refilter(priceFilterChanged); }
+            if (refilterFirst) { refilter(priceFilterChanged); }
             let table = $('#results').DataTable(); // jquery.. getElementById doesn't work
             // if price isn't <= budget, remove row
             table.rows(function (idx, data, node) {
-                let price = parseInt(data['price'].replace('$',''));
+                let price = parseInt(data['price'].replace('$', ''));
                 return price > val;
             })
-            .remove()
-            .draw();
+                .remove()
+                .draw();
         }
 
-        function petsFilterChanged(refilterFirst=true) {
+        function petsFilterChanged(refilterFirst = true) {
             console.log('petsFilterChanged called');
             let checked = document.getElementById('pets-checkbox').checked;
-            if(refilterFirst){ refilter(petsFilterChanged); }
-            if(checked){
+            if (refilterFirst) { refilter(petsFilterChanged); }
+            if (checked) {
                 let table = $('#results').DataTable(); // jquery.. getElementById doesn't work
                 // if pets doesn't have checkmark, remove row
                 table.rows(function (idx, data, node) {
                     return data['pets'] != checkmark;
                 })
-                .remove()
-                .draw();
+                    .remove()
+                    .draw();
             }
         }
 
-        function studentFilterChanged(refilterFirst=true) {
+        function studentFilterChanged(refilterFirst = true) {
             let checked = document.getElementById('student-checkbox').checked;
-            if(refilterFirst){ refilter(studentFilterChanged); }
-            if(checked){
+            if (refilterFirst) { refilter(studentFilterChanged); }
+            if (checked) {
                 let table = $('#results').DataTable(); // jquery.. getElementById doesn't work
                 // if student doesn't have checkmark, remove row
                 table.rows(function (idx, data, node) {
                     return data['student'] != checkmark;
                 })
-                .remove()
-                .draw();
+                    .remove()
+                    .draw();
             }
         }
     </script>
