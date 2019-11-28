@@ -102,7 +102,7 @@
                     <a href="#">About us</a>
                     <a href="#">FAQ</a>
                     <a href="#">Contact us</a>
-                    <a href="#">Logout</a>
+                    <a href="javascript:void(0);" onclick="firebase_logout()">Logout</a>
                 </div>
         </div>
     </nav>
@@ -196,6 +196,15 @@
               document.getElementById("mySidebar").style.width = "0";
               document.getElementById("main").style.marginLeft= "0";
             }
+    </script>
+     <script>
+         function firebase_logout() {
+            firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+            }).catch(function(error) {
+            // An error occurred.
+            });
+         }
     </script>  
 </body>
 </html>
