@@ -86,8 +86,9 @@
 
         body {
             background-color: #D1DBE0;
+            margin: 0;
+            padding: 0;
         }
-
         .navbar-header {
             float: left;
             padding: 15px;
@@ -144,11 +145,11 @@
             <div id="mySidebar" class="sidebar">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
                 <a href="#">Homepage</a>
-                <a href="#">User profile</a>
+                <a href="user_profile.html">User profile</a>
                 <a href="#">About us</a>
                 <a href="#">FAQ</a>
                 <a href="#">Contact us</a>
-                <a href="#">Logout</a>
+                <a href="login.html">Logout</a>
             </div>
         </div>
         </div>
@@ -169,11 +170,11 @@
 
             <legend class="section-heading">Current Address</legend>
             <div class="form-group">
-                <input class="form-control" type="text" id="first_name" placeholder="Street address" required>
-                <input class="form-control" type="text" id="first_name" placeholder="City" required>
-                <input class="form-control" type="text" id="first_name" placeholder="Province/state" required>
-                <input class="form-control" type="text" id="first_name" placeholder="Country" required>
-                <input class="form-control" type="text" id="first_name" placeholder="Postal code/zip code" required>
+                <input class="form-control" type="text" id="street_address" placeholder="Street address" required>
+                <input class="form-control" type="text" id="city" placeholder="City" required>
+                <input class="form-control" type="text" id="province" placeholder="Province/state" required>
+                <input class="form-control" type="text" id="country" placeholder="Country" required>
+                <input class="form-control" type="text" id="postal_code" placeholder="Postal code/zip code" required>
             </div>
 
             <legend class="section-heading">Bio Description</legend>
@@ -181,7 +182,6 @@
                 <label class="form-control-label" for="bio">Please write a description for your profile page.</label>
                 <textarea class="form-control" id="bio" rows="3" required></textarea>
             </div>
-
             <legend class="section-heading">Upload Photo</legend>
             <div class="form-group">
                 <div class="input-group">
@@ -195,8 +195,8 @@
                     </div>
                 </div>
             </div>
-            <a href="edit_user_profile_page_2.html"><button style="margin-top: 1em;" class="btn btn-primary" type="next_page" id="nextpage">Next page</button></a>
-        </form>            
+            <a href="edit_user_profile_page_2.html"><button style="margin-top: 1em;" class="btn btn-primary" type="next_page" id="nextpage">Next page</button></a> 
+        </form>           
     </div>
     
     <script>
