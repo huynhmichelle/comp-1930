@@ -163,74 +163,74 @@
             <tbody>
               <tr>
                 <td>
-                  <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="pets_ok">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="pets_ok" name="pets">
                     <label class="custom-control-label" for="pets_ok">OK with pets</label>
                   </div>
                 </td>
                 <td>
-                  <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="pets_not_ok">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="pets_not_ok" name="pets">
                     <label class="custom-control-label" for="pets_not_ok">Not OK with pets</label>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="children_ok">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="children_ok" name="children">
                     <label class="custom-control-label" for="children_ok">OK with children</label>
                   </div>
                 </td>
                 <td>
-                  <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="children_not_ok">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="children_not_ok" name="children">
                     <label class="custom-control-label" for="children_not_ok">Not OK with children</label>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="emplyoed">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="emplyoed" name="employment">
                     <label class="custom-control-label" for="emplyoed">Employed</label>
                   </div>
                 </td>
                 <td>
-                  <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="unemployed">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="unemployed" name="employment">
                     <label class="custom-control-label" for="unemployed">Unemployed</label>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td colspan="2">
-                  <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="post_secondary">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="post_secondary" name="student">
                     <label class="custom-control-label" for="post_secondary">Post-secondary student</label>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td colspan="2">
-                  <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="looking_for_tenants">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="looking_for_tenants">
                     <label class="custom-control-label" for="looking_for_tenants">Landlord looking for tenant(s)</label>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td colspan="2">
-                  <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="looking_for_roommates">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="looking_for_roommates">
                     <label class="custom-control-label" for="looking_for_roommates">Looking for roommate(s)</label>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td colspan="2">
-                  <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="looking_for_housing">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="looking_for_housing">
                     <label class="custom-control-label" for="looking_for_housing">Looking for a place to live</label>
                   </div>
                 </td>
@@ -335,226 +335,3 @@
   
   
   </body></html>
-
-  --
-  <style>
-    #divstyle {
-        background-color:#D1DBE0;
-      }
-      #buttonstyle {
-          float:left;
-      }
-      #img_float {
-        float:right;
-      }
-      .sidebar {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 2;
-            top: 0;
-            left: 0;
-            background-color: #111;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-            }
-        .sidebar a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 25px;
-            color: #818181;
-            display: block;
-            transition: 0.3s;
-            }
-        .sidebar a:hover {
-            color: #f1f1f1;
-            }
-        .sidebar .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-            }
-        .openbtn {
-            font-size: 20px;
-            cursor: pointer;
-            background-color: #111;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            }
-        .openbtn:hover {
-            background-color: #444;
-            }
-        #main {
-            transition: margin-left .5s;
-            padding: 16px;
-            }
-        /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-        @media screen and (max-height: 450px) {
-            .sidebar {padding-top: 15px;}
-            .sidebar a {font-size: 18px;}
-            }
-        .headerstyle {
-            background-color: #234567;
-        }
-        body {
-            background-color: #D1DBE0;
-            margin: 0;
-            padding: 0;
-        }
-        .navbar-header {
-            float: left;
-            padding: 15px;
-            text-align: center;
-            width: 100%;
-            }
-        .navbar-brand {
-            float:none;
-            }
-  </style>
-  <title>Edit user profile</title>
-</head>
-<body>
-  <nav id="navbar-site" class="navbar navbar-dark headerstyle navbar-expand-sm">
-        <div class="navbar-header">
-            <div id="main;buttonstyle">
-                    <button class="openbtn" onclick="openNav()" style="float:left">☰</button>  
-                </div>
-        <div class="container; text-center">
-                <a href="user_profile.html"><img src="./images/user-2.png" width="65px", height="65px" id="img_float"></a>
-                <a class="navbar-brand" href="main.html"style="font-size:40px">APP NAME</a>
-                </div>
-                <div id="mySidebar" class="sidebar">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-                    <a href="main.html">Homepage</a>
-                    <a href="user_profile.html">User profile</a>
-                    <a href="about.html">About us</a>
-                    <a href="contact.html">Contact us</a>
-                    <a href="login.html">Logout</a>
-                </div>
-        </div>
-        </div>
-  </nav>
-<div class="container">
-    <h2>Edit your user profile</h2>
-    <legend>Add your contact links to your profile</legend>
-    <label>Help other potential roommates/tenants/landlords contact you by adding your email/social media links to your profile.</label>
-    <div class="container">
-        <div class="form-group">
-            <label class="form-control-label" for="email">Email</label>
-            <input class="form-control" type="text" id="email" placeholder="Your email address">
-            <label class="form-control-label" for="facebook">Facebook</label>
-            <input class="form-control" type="text" id="facebook" placeholder="Your Facebook profile">
-            <label class="form-control-label" for="twitter">Twitter</label>
-            <input class="form-control" type="text" id="twitter" placeholder="Your Twitter page">
-            <label class="form-control-label" for="instagram">Instagram</label>
-            <input class="form-control" type="text" id="instagram" placeholder="Your Instagram page">
-            <label class="form-control-label" for="other_link_1">Other link</label>
-            <input class="form-control" type="text" id="other_link_1" placeholder="Other link you would like to share">
-            <label class="form-control-label" for="other_link_2">Other link</label>
-            <input class="form-control" type="text" id="other_link_2" placeholder="Other link you would like to share">
-        </div>
-    </div>
-    <legend>Add search filters to your profile</legend>
-    <label>Help other potential roommates/tenants/landlords find your profile by selecting filter tags to add to your profile. Select all that apply to you.</label>
-    <div class="container">
-        <table class="table table-light table-striped">
-            <tbody>
-              <tr>
-                <td>
-                  <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="defaultInline1">
-                    <label class="custom-control-label" for="defaultInline1">OK with pets</label>
-                  </div>
-                </td>
-                <td>
-                  <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="defaultInline2">
-                    <label class="custom-control-label" for="defaultInline2">Not OK with pets</label>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="defaultInline3">
-                    <label class="custom-control-label" for="defaultInline3">OK with children</label>
-                  </div>
-                </td>
-                <td>
-                  <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="defaultInline4">
-                    <label class="custom-control-label" for="defaultInline4">Not OK with children</label>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="defaultInline5">
-                    <label class="custom-control-label" for="defaultInline5">Employed</label>
-                  </div>
-                </td>
-                <td>
-                  <div class="custom-control custom-checkbox custom-control-inline">
-                      <input type="checkbox" class="custom-control-input" id="defaultInline6">
-                      <label class="custom-control-label" for="defaultInline6">Unemployed</label>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                  <td colspan="2">
-                    <div class="custom-control custom-checkbox custom-control-inline">
-                      <input type="checkbox" class="custom-control-input" id="defaultInline7">
-                      <label class="custom-control-label" for="defaultInline7">Post-secondary student</label>
-                    </div>
-                    </td>
-                </tr>
-              <tr>
-                  <td colspan="2">
-                    <div class="custom-control custom-checkbox custom-control-inline">
-                      <input type="checkbox" class="custom-control-input" id="defaultInline8">
-                      <label class="custom-control-label" for="defaultInline8">Landlord looking for tenant(s)</label>
-                    </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                      <div class="custom-control custom-checkbox custom-control-inline">
-                        <input type="checkbox" class="custom-control-input" id="defaultInline9">
-                        <label class="custom-control-label" for="defaultInline9">Looking for roommate(s)</label>
-                      </div>
-                      </td>
-                  </tr>
-                <tr>
-                    <td colspan="2">
-                      <div class="custom-control custom-checkbox custom-control-inline">
-                        <input type="checkbox" class="custom-control-input" id="defaultInline10">
-                        <label class="custom-control-label" for="defaultInline10">Looking for a place to live</label>
-                      </div>
-                      </td>
-                  </tr>
-            </tbody>
-        </table>
-    </div>
-    <br>
-    <a href="edit_user_profile.html"><button class="btn btn-primary" type="submit">Back</button></a>
-    <a href="user_profile.html"><button class="btn btn-primary" type="submit">Submit</button></a>
-    </div>
-</div>
-</body>
-<script>
-  function openNav() {
-          document.getElementById("mySidebar").style.width = "250px";
-          document.getElementById("main").style.marginLeft = "250px";
-        }
-        
-  function closeNav() {
-          document.getElementById("mySidebar").style.width = "0";
-          document.getElementById("main").style.marginLeft= "0";
-        }
-</script>
-        
