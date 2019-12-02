@@ -1,6 +1,8 @@
+<!DOCTYPE html>
+
 <html lang="en"><head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0 shrink-to-fit=no">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>User profile</title>
         <link type="text/css" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -86,6 +88,8 @@
     
             body {
                 background-color: #D1DBE0;
+                margin: 0;
+                padding: 0;
             }
     
             .navbar-header {
@@ -108,36 +112,32 @@
             }
         </style>
     
-        <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
+        <script src="https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.en.7kWSr24wXFc.O/m=gapi_iframes/rt=j/sv=1/d=1/ed=1/am=wQE/rs=AGLTcCN-4ZptW5UzimRFZRBm6izu5h2ZaQ/cb=gapi.loaded_0" async=""></script><script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-firestore.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     
     
-    </head>
+    <script type="text/javascript" charset="UTF-8" src="https://apis.google.com/js/api.js?onload=__iframefcb740610" gapi_processed="true"></script></head>
     
     <body>
         <nav id="navbar-site" class="navbar navbar-dark headerstyle navbar-expand-sm">
             <div class="navbar-header">
-                <div id="main;buttonstyle">
+                <div id="main; buttonstyle">
                     <button class="openbtn" onclick="openNav()" style="float:left">☰</button>
                 </div>
-                <div class="container;text-center">
-                    <a href="user_profile.html"><img src="./images/user-2.png" width="65px" ,="" height="65px" id="img_float"></a>
-                    <a class="navbar-brand" href="#" style="font-size:40px">APP NAME</a>
-                    <div id="img_float">
-                        <a href="#"><img src="./images/mail-2.png" width="35px" ,="" height="35px"></a><br>
-                        <a href="#"><img src="./images/bell-2.png" width="35px" ,="" height="35px"></a>
-                    </div>
+                <div class="container; text-center">
+                    <a href="user_profile.html"><img src="./images/user-2.png" width="65px" height="65px" id="img_float"></a>
+                    <a class="navbar-brand" href="main.html" style="font-size:40px">APP NAME</a>
                     <div id="mySidebar" class="sidebar">
                         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-                        <a href="main_logged_in.html">Homepage</a>
+                        <a href="main.html">Homepage</a>
                         <a href="user_profile.html">User profile</a>
                         <a href="#">About us</a>
                         <a href="#">FAQ</a>
                         <a href="#">Contact us</a>
-                        <a href="login.html">Logout</a>
+                        <a href="landing.html">Logout</a>
                     </div>
                 </div>
         </div></nav>
@@ -150,10 +150,14 @@
                     <legend>General</legend>
                     <table class="table table-light" style="background-color: #D1DBE0;">
                         <tbody><tr>
-                            <td id="first-name">Atest</td>
+                            <td id="first-name">
+                                First name
+                            </td>
                         </tr>
                         <tr>
-                            <td id="last-name">User</td>
+                            <td id="last-name">
+                                Last name
+                            </td>
                         </tr>
                     </tbody></table>
                 </div>
@@ -163,7 +167,7 @@
                         <tbody><tr>
                             <td>
                                 <img src="images/mail-1.png" width="30px" height="30px">
-                                <a id="email-link" href="mailto:test_user_103822@gmail.com">test_user_103822@gmail.com</a>
+                                <a id="email-link" href="#">Email</a>
                             </td>
                             <td>
                                 <img src="images/facebook.png" width="30px" height="30px">
@@ -197,20 +201,9 @@
                 <legend>Bio</legend>
                 <table class="table table-light" style="background-color: #D1DBE0;">
                     <tbody><tr>
-                        <td id="bio-description">This is my bio!</td>
-                    </tr>
-                </tbody></table>
-            </div>
-            <div>
-                <legend>For Rent</legend>
-                <table class="table table-light" style="background-color: #D1DBE0;">
-                    <tbody><tr>
-                        <td id="price"></td>
-                        <td id="pets"></td>
-                        <td id="students"></td>
-                        <td id="rooms"></td>
-                        <td id="roommates"></td>
-                        <td id="starting_date"></td>
+                        <td id="bio-description">
+                            Description here
+                        </td>
                     </tr>
                 </tbody></table>
             </div>
@@ -219,7 +212,7 @@
                 <table id="search-filter-tags-table" class="table table-light" style="background-color: #D1DBE0;">
                     <tbody>
                         <tr>
-                        <td><a href="#" style="margin: 0.2em;" class="badge badge-primary">OK With Children</a><a href="#" style="margin: 0.2em;" class="badge badge-primary">Pets OK</a><a href="#" style="margin: 0.2em;" class="badge badge-primary">Post-Secondary Student</a><a href="#" style="margin: 0.2em;" class="badge badge-primary">Looking For Roommates</a><a href="#" style="margin: 0.2em;" class="badge badge-primary">Unemployed</a></td></tr>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -344,4 +337,4 @@
     
     
     
-    </body></html>
+    <iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="0" vspace="0" width="100%" id="I0_1575294442851" name="I0_1575294442851" src="https://fire1-2c085.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyCOl7zfOtE5H75WPViBv-jNxn9nZLhHNFo&amp;appName=%5BDEFAULT%5D&amp;v=7.2.2&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.en.7kWSr24wXFc.O%2Fam%3DwQE%2Fd%3D1%2Fct%3Dzgms%2Frs%3DAGLTcCN-4ZptW5UzimRFZRBm6izu5h2ZaQ%2Fm%3D__features__#id=I0_1575294442851&amp;_gfid=I0_1575294442851&amp;parent=https%3A%2F%2Ffire1-2c085.firebaseapp.com&amp;pfname=&amp;rpctoken=10444976" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe></body></html>
