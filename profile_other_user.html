@@ -2,7 +2,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Document</title>
+        <title>Other user's profile</title>
         <link type="text/css" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <style>
             #divstyle {
@@ -98,16 +98,19 @@
             .navbar-brand {
                 float: none;
             }
-            h2{
+    
+            h2 {
                 font-weight: bold;
             }
-            #search-filter-tags-table{
+    
+            #search-filter-tags-table {
                 font-size: 1.1em;
             }
         </style>
     </head>
     
     <body>
+    
         <nav id="navbar-site" class="navbar navbar-dark headerstyle navbar-expand-sm">
             <div class="navbar-header">
                 <div id="main;buttonstyle">
@@ -115,19 +118,14 @@
                 </div>
                 <div class="container;text-center">
                     <a href="user_profile.html"><img src="./images/user-2.png" width="65px" ,="" height="65px" id="img_float"></a>
-                    <a class="navbar-brand" href="#" style="font-size:40px">APP NAME</a>
-                    <div id="img_float">
-                        <a href="#"><img src="./images/mail-2.png" width="35px" ,="" height="35px"></a><br>
-                        <a href="#"><img src="./images/bell-2.png" width="35px" ,="" height="35px"></a>
-                    </div>
+                    <a class="navbar-brand" href="main.html" style="font-size:40px">APP NAME</a>
                     <div id="mySidebar" class="sidebar">
                         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-                        <a href="main_logged_in.html">Homepage</a>
-                        <a href="user_profile.html">User Profile</a>
-                        <a href="#">About us</a>
-                        <a href="#">FAQ</a>
-                        <a href="#">Contact us</a>
-                        <a href="#">Logout</a>
+                        <a href="main.html">Homepage</a>
+                        <a href="user_profile.html">User profile</a>
+                        <a href="about.html">About us</a>
+                        <a href="contact.html">Contact us</a>
+                        <a href="landing.html">Logout</a>
                     </div>
                 </div>
         </div></nav>
@@ -197,18 +195,21 @@
                     </tr>
                 </tbody></table>
             </div>
-            <div>
+            <div id="rental-info" style="display: none;">
                 <legend>For Rent</legend>
+                <p id="property-description"></p>
                 <table class="table table-light" style="background-color: #D1DBE0;">
-                    <tbody><tr>
-                        <td id="price"></td>
-                        <td id="pets"></td>
-                        <td id="students"></td>
-                        <td id="rooms"></td>
-                        <td id="roommates"></td>
-                        <td id="starting_date"></td>
-                    </tr>
-                </tbody></table>
+                    <tbody>
+                        <tr>
+                            <td id="price"></td>
+                            <td id="pets"></td>
+                            <td id="students"></td>
+                            <td id="rooms"></td>
+                            <td id="roommates"></td>
+                            <td id="starting_date"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div>
                 <legend>Search filter tags</legend>
@@ -250,14 +251,14 @@
             };
     
             var searchTags = [['children_not_ok', 'Not OK With Children'],
-                               ['children_ok', 'OK With Children'],
-                               ['pets_not_ok', 'Not OK With Pets'],
-                               ['pets_ok', 'Pets OK'],
-                               ['emplyoed', 'Employed'],
-                               ['looking_for_housing', 'Looking For Housing'],
-                               ['looking_for_roommates', 'Looking For Roommates'],
-                               ['looking_for_tenants', 'Looking For Tenants'],
-                               ['unemployed', 'Unemployed']];
+            ['children_ok', 'OK With Children'],
+            ['pets_not_ok', 'Not OK With Pets'],
+            ['pets_ok', 'Pets OK'],
+            ['emplyoed', 'Employed'],
+            ['looking_for_housing', 'Looking For Housing'],
+            ['looking_for_roommates', 'Looking For Roommates'],
+            ['looking_for_tenants', 'Looking For Tenants'],
+            ['unemployed', 'Unemployed']];
     
             // Initialize Firebase
             firebase.initializeApp(firebaseConfig);
@@ -270,6 +271,8 @@
                 var idValue = parseInt(profileId.split('=')[1]);
                 console.log(idValue);
                 var profileData;
+                var rentalData;
+                // Get user profile data
                 db.collection('users').where('displayId', '==', idValue)
                     .get()
                     .then(function (querySnapshot) {
@@ -288,15 +291,57 @@
                         document.getElementById('email-link').setAttribute('href', `mailto:${profileData.email}`);
                         let searchTagTable = document.getElementById('search-filter-tags-table');
                         let newCell = searchTagTable.getElementsByTagName('tr')[0].insertCell(-1);
-                        for( tag of searchTags ){
+                        for (tag of searchTags) {
                             console.log(tag);
-                            if( profileData.user_data[tag[0]] == true ){
+                            if (profileData.user_data[tag[0]] == true) {
                                 let tagClass;
                                 tagClass = tag[1].search('Not') == -1 ? "badge badge-primary" : "badge badge-danger";
                                 let tagText = tag[1];
                                 newCell.innerHTML += `<a href="#" style="margin: 0.2em;" class="${tagClass}">${tagText}</a>`;
                             }
                         }
+                    })
+                    // Something went wrong, catch and print the error
+                    .catch(function (error) {
+                        console.log("Error getting documents: ", error);
+                    });
+    
+                
+                // Get rental data if user is a tenant
+                // Some rentals have the same landlord for testing, only get the first one
+                db.collection('rentals').where('landlordId', '==', idValue).limit(1)
+                    .get()
+                    .then(function (querySnapshot) {
+                        // Log each document's data to console for testing
+                        console.log('db collection query called - rentals');
+                        querySnapshot.forEach(function (doc) {
+                            rentalData = doc.data();
+                            console.log(doc.id, " => ", doc.data());
+                        });
+                    })
+                    .then(function (result) {
+                        
+                        document.getElementById('price').innerHTML = `Price: $${rentalData.rent_price}`;
+                        document.getElementById('rooms').innerHTML = `Rooms: ${rentalData.rooms_available}`;
+                        document.getElementById('students').innerHTML = `Students: ${rentalData.student_tenant}`;
+                        document.getElementById('roommates').innerHTML = `Roommates: ${rentalData.roommates}`;
+                        document.getElementById('starting_date').innerHTML = `Available: ${rentalData.date_available}`;
+                        document.getElementById('property-description').innerHTML = 'Description of my property';
+                        document.getElementById("rental-info").style.display = "inline";
+    
+                        /*
+                        let searchTagTable = document.getElementById('search-filter-tags-table');
+                        let newCell = searchTagTable.getElementsByTagName('tr')[0].insertCell(-1);
+                        for (tag of searchTags) {
+                            console.log(tag);
+                            if (profileData.user_data[tag[0]] == true) {
+                                let tagClass;
+                                tagClass = tag[1].search('Not') == -1 ? "badge badge-primary" : "badge badge-danger";
+                                let tagText = tag[1];
+                                newCell.innerHTML += `<a href="#" style="margin: 0.2em;" class="${tagClass}">${tagText}</a>`;
+                            }
+                        }
+                        */
                     })
                     // Something went wrong, catch and print the error
                     .catch(function (error) {
