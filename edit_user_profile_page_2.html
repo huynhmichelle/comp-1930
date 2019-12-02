@@ -7,6 +7,338 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <link type="text/css" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <style>
+      #divstyle {
+        background-color: #D1DBE0;
+      }
+  
+      #buttonstyle {
+        float: left;
+      }
+  
+      #img_float {
+        float: right;
+      }
+  
+      .sidebar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+      }
+  
+      .sidebar a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+      }
+  
+      .sidebar a:hover {
+        color: #f1f1f1;
+      }
+  
+      .sidebar .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+      }
+  
+      .openbtn {
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #111;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+      }
+  
+      .openbtn:hover {
+        background-color: #444;
+      }
+  
+      #main {
+        transition: margin-left .5s;
+        padding: 16px;
+      }
+  
+      /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+      @media screen and (max-height: 450px) {
+        .sidebar {
+          padding-top: 15px;
+        }
+  
+        .sidebar a {
+          font-size: 18px;
+        }
+      }
+  
+      .headerstyle {
+        background-color: #234567;
+      }
+  
+      body {
+        background-color: #D1DBE0;
+        margin: 0;
+        padding: 0;
+      }
+  
+      .navbar-header {
+        float: left;
+        padding: 15px;
+        text-align: center;
+        width: 100%;
+      }
+  
+      .navbar-brand {
+        float: none;
+      }
+    </style>
+  
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  
+  
+    <title>Edit user profile</title>
+  </head>
+  
+  <body>
+    <nav id="navbar-site" class="navbar navbar-dark headerstyle navbar-expand-sm">
+      <div class="navbar-header">
+        <div id="main; buttonstyle">
+          <button class="openbtn" onclick="openNav()" style="float:left">☰</button>
+        </div>
+        <div class="container; text-center">
+          <a href="user_profile.html"><img src="./images/user-2.png" width="65px" height="65px" id="img_float"></a>
+          <a class="navbar-brand" href="main.html" style="font-size:40px">APP NAME</a>
+        </div>
+        <div id="mySidebar" class="sidebar">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+          <a href="main.html">Homepage</a>
+          <a href="user_profile.html">User profile</a>
+          <a href="#">About us</a>
+          <a href="#">FAQ</a>
+          <a href="#">Contact us</a>
+          <a href="landing.html">Logout</a>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <h2>Edit your user profile</h2>
+      <legend>Add your contact links to your profile</legend>
+      <label>Help other potential roommates/tenants/landlords contact you by adding your email/social media links to your profile.</label>
+      <div class="container">
+        <div class="form-group">
+            <label class="form-control-label" for="email">Email</label>
+            <input class="form-control" type="text" id="email" placeholder="Your email address">
+            <label class="form-control-label" for="facebook">Facebook</label>
+            <input class="form-control" type="text" id="facebook" placeholder="Your Facebook profile">
+            <label class="form-control-label" for="twitter">Twitter</label>
+            <input class="form-control" type="text" id="twitter" placeholder="Your Twitter page">
+            <label class="form-control-label" for="instagram">Instagram</label>
+            <input class="form-control" type="text" id="instagram" placeholder="Your Instagram page">
+            <label class="form-control-label" for="other_link_1">Other link</label>
+            <input class="form-control" type="text" id="other_link_1" placeholder="Other link you would like to share">
+            <label class="form-control-label" for="other_link_2">Other link</label>
+            <input class="form-control" type="text" id="other_link_2" placeholder="Other link you would like to share">
+        </div>
+      </div>
+      <legend>Add search filters to your profile</legend>
+      <label>Help other potential roommates/tenants/landlords find you by selecting filter tags to add to your profile.
+        Select all that apply to you.</label>
+      <div class="container">
+        <form id="user-profile-form">
+          <table class="table table-light table-striped">
+            <tbody>
+              <tr>
+                <td>
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input" id="pets_ok">
+                    <label class="custom-control-label" for="pets_ok">OK with pets</label>
+                  </div>
+                </td>
+                <td>
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input" id="pets_not_ok">
+                    <label class="custom-control-label" for="pets_not_ok">Not OK with pets</label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input" id="children_ok">
+                    <label class="custom-control-label" for="children_ok">OK with children</label>
+                  </div>
+                </td>
+                <td>
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input" id="children_not_ok">
+                    <label class="custom-control-label" for="children_not_ok">Not OK with children</label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input" id="emplyoed">
+                    <label class="custom-control-label" for="emplyoed">Employed</label>
+                  </div>
+                </td>
+                <td>
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input" id="unemployed">
+                    <label class="custom-control-label" for="unemployed">Unemployed</label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input" id="post_secondary">
+                    <label class="custom-control-label" for="post_secondary">Post-secondary student</label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input" id="looking_for_tenants">
+                    <label class="custom-control-label" for="looking_for_tenants">Landlord looking for tenant(s)</label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input" id="looking_for_roommates">
+                    <label class="custom-control-label" for="looking_for_roommates">Looking for roommate(s)</label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input" id="looking_for_housing">
+                    <label class="custom-control-label" for="looking_for_housing">Looking for a place to live</label>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+      <br>
+      <a href="edit_user_profile.html"><button class="btn btn-primary" type="submit">Back</button></a>
+      <button class="btn btn-primary" type="submit" onclick="submitForm();">Submit</button>
+    </div>
+  
+  <script>
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+    }
+  
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    }
+  </script>
+  
+  
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyCOl7zfOtE5H75WPViBv-jNxn9nZLhHNFo",
+      authDomain: "fire1-2c085.firebaseapp.com",
+      databaseURL: "",
+      projectId: "fire1-2c085",
+      storageBucket: "fire1-2c085.appspot.com",
+      messagingSenderId: "228703666474",
+      appId: "1:228703666474:web:3bacd2b08daf85a79cde53",
+      measurementId: "G-8V89TB50QY"
+    };
+  
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  
+    // Initialize Firestore
+    var db = firebase.firestore();
+    var userId;
+  
+    firebase.auth().onAuthStateChanged(function (user) {
+      console.log('on auth state changed');
+      if (user) {
+        // User is signed in.
+        console.log('LOGGED IN');
+        userId = user.uid;
+        console.log(user.uid);
+  
+        /*
+        // Make profile elements visisble when user is logged in
+        const profileElements = document.querySelectorAll('.user-profile-elements');
+        profileElements.forEach(element => {
+            element.style.visibility = 'visible';
+        });
+        // Hide login button
+        document.getElementById('login-button').style.visibility = 'hidden';
+        */
+  
+      } else {
+        console.log('NOT LOGGED IN');
+        // No user is signed in.
+      }
+    });
+  
+  </script>
+  
+  <script>
+    function submitForm() {
+      console.log('submit form called');
+      var form = document.forms[0];
+      var user_data = new Object();
+      for (elem of form.elements) {
+        let name = elem.id;
+        console.log(name);
+        console.log(elem.checked);
+        if (elem.value != '') {
+          user_data[name] = elem.checked;
+        }
+        console
+      }
+      console.log(user_data);
+      var userRef = db.collection('users').doc(userId);
+      userRef.set({ user_data },{ merge: true })
+        .then(function (docRef) {
+          console.log("Document written with ID: ", docRef);
+  
+          // Redirect to main page
+          window.location.assign('main.html');
+          
+        })
+        .catch(function (error) {
+          console.error("Error adding document: ", error);
+        });
+    }
+  </script>
+  
+  
+  </body></html>
+
+  --
+  <style>
     #divstyle {
         background-color:#D1DBE0;
       }
@@ -92,17 +424,13 @@
             <div id="main;buttonstyle">
                     <button class="openbtn" onclick="openNav()" style="float:left">☰</button>  
                 </div>
-        <div class="container">
+        <div class="container; text-center">
                 <a href="user_profile.html"><img src="./images/user-2.png" width="65px", height="65px" id="img_float"></a>
-                <a class="navbar-brand" href="#"style="font-size:40px">APP NAME</a>
-                    <div id="img_float">
-                        <a href="#"><img src="./images/mail-2.png" width="35px", height="35px"></a><br>
-                        <a href="#"><img src="./images/bell-2.png" width="35px", height="35px"></a>
-                    </div>
+                <a class="navbar-brand" href="main.html"style="font-size:40px">APP NAME</a>
                 </div>
                 <div id="mySidebar" class="sidebar">
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-                    <a href="edit_user_profile_page_2.html">Homepage</a>
+                    <a href="main.html">Homepage</a>
                     <a href="user_profile.html">User profile</a>
                     <a href="#">About us</a>
                     <a href="#">FAQ</a>
@@ -114,8 +442,26 @@
   </nav>
 <div class="container">
     <h2>Edit your user profile</h2>
+    <legend>Add your contact links to your profile</legend>
+    <label>Help other potential roommates/tenants/landlords contact you by adding your email/social media links to your profile.</label>
+    <div class="container">
+        <div class="form-group">
+            <label class="form-control-label" for="email">Email</label>
+            <input class="form-control" type="text" id="email" placeholder="Your email address">
+            <label class="form-control-label" for="facebook">Facebook</label>
+            <input class="form-control" type="text" id="facebook" placeholder="Your Facebook profile">
+            <label class="form-control-label" for="twitter">Twitter</label>
+            <input class="form-control" type="text" id="twitter" placeholder="Your Twitter page">
+            <label class="form-control-label" for="instagram">Instagram</label>
+            <input class="form-control" type="text" id="instagram" placeholder="Your Instagram page">
+            <label class="form-control-label" for="other_link_1">Other link</label>
+            <input class="form-control" type="text" id="other_link_1" placeholder="Other link you would like to share">
+            <label class="form-control-label" for="other_link_2">Other link</label>
+            <input class="form-control" type="text" id="other_link_2" placeholder="Other link you would like to share">
+        </div>
+    </div>
     <legend>Add search filters to your profile</legend>
-    <label>Help other potential roommates/tenants/landlords find you by selecting filter tags to add to your profile. Select all that apply to you.</label>
+    <label>Help other potential roommates/tenants/landlords find your profile by selecting filter tags to add to your profile. Select all that apply to you.</label>
     <div class="container">
         <table class="table table-light table-striped">
             <tbody>
