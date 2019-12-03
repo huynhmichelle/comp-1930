@@ -10,6 +10,7 @@
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
     <link type="text/css" rel="stylesheet"
         href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
     <style>
         #title {
             /*background-color: #D1DBE0;*/
@@ -100,22 +101,23 @@
                 <div id="mySidebar" class="sidebar">
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
                     <a href="main.html">Homepage</a>
-                    <a href="#">About us</a>
-                    <a href="#">FAQ</a>
-                    <a href="#">Contact us</a>
+                    <a href="about.html">About us</a>
+                    <a href="contact.html">Contact us</a>
                 </div>
             </div>
         </div>
-
+    <div class="container" id="firebaseui-auth-container">
+        <h1 id='title'>Welcome to App Name</h1>
+        <div id="loader">Loading...</div>
+    </div>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-firestore.js"></script>
     <!-- The surrounding HTML is left untouched by FirebaseUI.
         Your app may use that space for branding, controls and other customizations.-->
-        <div class="container" id="firebaseui-auth-container">
-                <h1 id='title'>Welcome to App Name</h1>
-                <div id="loader">Loading...</div>
-            </div>
+    
+            <!--<div id="firebaseui-auth-container", class="container">
+            <h1 id='title'>Welcome to Appy!</h1>-->
+        <!--<div id="loader", class="container">Loading...</div>-->
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
     <script>
         function openNav() {

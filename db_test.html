@@ -31,7 +31,7 @@
             // Initialize Firebase
             firebase.initializeApp(firebaseConfig);
             
-            // Initialize Firestore
+            // Initialize Firestore and create new document in users collection
             var db = firebase.firestore();
             
             function addUser(userId, email, firstName, lastName){
