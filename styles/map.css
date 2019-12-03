@@ -1,0 +1,26 @@
+#mapbox-elements {
+    float: left;
+    min-width: 300px;
+    min-height: 300px;
+}
+
+
+#map-holder {
+
+    width: 100%;
+    max-width: 800px;
+    height: 100%;
+    margin: auto;
+}
+
+#map {
+    position: initial;
+    z-index: -10;
+    /* display: inline; */
+    visibility: hidden;
+
+}
+
+.mapboxgl-ctrl-geocoder {
+    min-width: 100%;
+}
