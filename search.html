@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="styles/header2.css">
@@ -16,6 +16,11 @@
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-storage.js"></script>
+
+    <!--Site Scripts-->
+    <script src="scripts/firebase_main.js"></script>
+
     <style>
         input.lrgChkbox {
             transform: scale(2);
@@ -47,30 +52,43 @@
 <body>
     <nav id="navbar-site" class="navbar navbar-dark headerstyle navbar-expand-sm">
         <div class="navbar-header">
-            <div id="main; buttonstyle" style="margin-left: 0px;">
+            <div id="main">
                 <button class="openbtn" onclick="openNav()">☰</button>
             </div>
-            <div class="container;text-center">
-                    <!--<a class="user-profile-elements" href="user_profile.html"><img src="./images/user-2.png" width="65px", height="65px" id="img_float"></a>-->
-                    <a href="login.html"><button id="login-button" class="btn btn-lg btn-primary" style="float: right;" type="button">Login</button>
-                    <a class="navbar-brand" href="main.html"style="font-size:40px">APP NAME</a>
-                    </div>
+            <div class="container">
+                <a class="user-profile-elements" href="user_profile.html"><img src="./images/user-2.png" width="65px" ,
+                        height="65px" id="img_float"></a>
+                <a class="navbar-brand" href="main.html"style="font-size:40px">APP NAME</a>
+                <a href="login.html"><button id="login-button" class="btn btn-lg btn-primary" style="float: right;"
+                        type="button">Login</button>
+            </div>
             <div id="mySidebar" class="sidebar">
-                <div id="sidebarContent" style="width: 250px;">
+                <div id="mySidebar" class="sidebar">
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
                     <a href="main.html">Homepage</a>
-                    <a href="user_profile.html">User profile</a>
-                    <a href="about.html">About us</a>
-                    <a href="contact.html">Contact us</a>
-                    <a href="login.html">Logout</a>
+                    <a href="user_profile.html">Profile</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="#" onclick="firebase_logout()">Logout</a>
                 </div>
             </div>
-        </div>
     </nav>
 
     <div id='results-and-filters' style="width:90%;margin-left:auto;margin-right:auto;margin-top:1%;">
+        <ul class="nav nav-pills" id="table-nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="rental-tab" data-toggle="tab" href="#rental-table-div" role="tab"
+                    aria-controls="rental-table-div" aria-selected="true">Rentals</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="user-tab" data-toggle="tab" href="#user-table-div" role="tab"
+                    aria-controls="user-table-div" aria-selected="false">People</a>
+            </li>
+        </ul>
+        <br>
+
         <div class="filters-dropdown">
-            <button id="dropdownMenuButton" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+            <button id="dropdownMenuButton" class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">Filters</button>
             <button id='clear-filters' class="btn btn-secondary" onclick='clearFilters();'>Clear</button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
@@ -93,54 +111,31 @@
             </div>
         </div>
 
-        <div id='table-div' style='text-align: center;'>
-            <table id='results' class="table table-striped table-bordered table-responsive">
-                <thead class="thead-light">
-                </thead>
-            </table>
+
+        <div class="tab-content">
+
+            <!--Rental Table-->
+            <div id='rental-table-div' class="tab-pane fade show active"
+                style='text-align: center; width: 100%; overflow-x: scroll;' role="tabpanel"
+                aria-labelledby="rental-tab">
+                <table id='rental-results' class="table table-striped table-bordered">
+                    <thead class="thead-light"></thead>
+                </table>
+            </div>
+
+            <!--Users Table-->
+            <div id='user-table-div' class="tab-pane fade" style='text-align: center; width: 100%; overflow-x: scroll;'
+                role="tabpanel" aria-labelledby="user-tab">
+                <table id='user-results' class="table table-striped table-bordered">
+                    <thead class="thead-light"></thead>
+                </table>
+            </div>
         </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
-    <script>
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-            apiKey: "AIzaSyCOl7zfOtE5H75WPViBv-jNxn9nZLhHNFo",
-            authDomain: "fire1-2c085.firebaseapp.com",
-            databaseURL: "",
-            projectId: "fire1-2c085",
-            storageBucket: "fire1-2c085.appspot.com",
-            messagingSenderId: "228703666474",
-            appId: "1:228703666474:web:3bacd2b08daf85a79cde53",
-            measurementId: "G-8V89TB50QY"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+    <script src="scripts/search.js"></script>
 
-        // Initialize Firestore
-        var db = firebase.firestore();
-
-        firebase.auth().onAuthStateChanged(function (user) {
-            console.log('on auth state changed');
-            if (user) {
-                // User is signed in.
-                console.log('LOGGED IN');
-                console.log(user.uid);
-                // Make profile elements visisble when user is logged in
-                const profileElements = document.querySelectorAll('.user-profile-elements');
-                profileElements.forEach(element => {
-                    element.style.visibility = 'visible';
-                });
-                // Hide login button
-                document.getElementById('login-button').style.visibility = 'hidden';
-                
-            } else {
-                console.log('NOT LOGGED IN');
-                // No user is signed in.
-            }
-        });
-
-    </script>
 
     <script>
         function openNav() {
@@ -152,163 +147,6 @@
             //document.getElementById("sidebarWrapper").style.width = "0";
             document.getElementById("mySidebar").style.width = "0";
             document.getElementById("main").style.marginLeft = "0";
-        }
-    </script>
-
-    <script>
-        var checkmark = '&#10004;'; // ✔
-        var xmark = '&#10006;'; // ✖
-        var savedData = [];
-        function getData() {
-            db.collection('rentals')
-                .get()
-                .then(function (querySnapshot) {
-                    let dataSet = [];
-                    querySnapshot.forEach(function (doc) {
-                        //console.log(doc.id, " => ", doc.data());
-                        dataSet.push({
-                            'id': doc.data().rental_id,
-                            'price': doc.data().rent_price,
-                            'pets': doc.data().pets_ok,
-                            'student': doc.data().student_tenant,
-                            'roommates': doc.data().roommates,
-                            'rooms_available': doc.data().rooms_available,
-                            'date': doc.data().date_available,
-                        });
-                    });
-                    populateTable(dataSet);
-                })
-                .catch(function (error) {
-                    console.log("Error getting documents: ", error);
-                });
-        }
-        getData();
-    </script>
-
-    <script>
-        function populateTable(dataSet) {
-            /*
-            var testData = [{ "id":"John", "price":31, "pets":"123 Street" },
-                            { "id":"Jacky", "price":62, "pets":"123 Street" }];
-            console.table(dataSet);
-            */
-            // Process firestore data for display
-            for (o of dataSet) {
-                // If pets is True replace with ✔, else ✖
-                o.pets = o.pets ? checkmark : xmark;
-                o.student = o.student ? checkmark : xmark;
-                o.price = '$' + o.price.toString();
-            }
-            savedData = dataSet; // save the processed data
-            var table = $('#results').DataTable({
-                dom: '<"#table-len"l>f<t>ip',
-                autoWidth: false,
-                data: dataSet,
-                columns: [
-                    { title: 'ID', data: 'id', width: '5%' },
-                    { title: 'Price', data: 'price', width: '10%' },
-                    { title: 'Pets', data: 'pets', width: '10%' },
-                    { title: 'Students', data: 'student', width: '10%' },
-                    { title: 'Rooms', data: 'rooms_available', width: '10%' },
-                    { title: 'Roommates', data: 'roommates', width: '15%' },
-                    { title: 'Starting', data: 'date', width: '40%' },
-                ]
-            });
-
-            // Update price filter with highest price in retrieved data
-            let max_price = dataSet.reduce(function (a, b) {
-                let price1 = parseInt(a.price.replace('$', ''));
-                let price2 = parseInt(b.price.replace('$', ''));
-                return (price1 > price2) ? a : b
-            });
-            max_price = parseInt(max_price.price.replace('$', ''));
-            let range_input = document.getElementById("price-range-input");
-            range_input.max = max_price;
-            range_input.value = max_price;
-            document.getElementById('price-range-text').value = `$${max_price}`;
-            document.getElementById("price-range-max-text").innerHTML = `$${max_price}`;
-        }
-    </script>
-
-    <script>
-        function refilter(caller) {
-            restoreData();
-            let filterFunctions = [priceFilterChanged, petsFilterChanged];
-            // filterFunctions.filter(f => f==caller);
-            for (f of filterFunctions) {
-                if (f != caller) {
-                    f(false);
-                    //console.log(f);
-                }
-            }
-        }
-
-        function restoreData() {
-            // Restore saved table data
-            var table = $('#results').DataTable();
-            table.clear().draw();
-            table.rows.add(savedData);
-            table.columns.adjust().draw();
-        }
-
-        function clearFilters() {
-            restoreData();
-            // Clear UI filter elements
-            let priceRangeInput = document.getElementById('price-range-input');
-            let petsCheckbox = document.getElementById('pets-checkbox');
-            let studentCheckbox = document.getElementById('student-checkbox');
-            let currentPrice = document.getElementById('price-range-text');
-            let max_price = priceRangeInput.max;
-            currentPrice.value = `$${max_price}`;
-            //maxPrice.innerHTML = `$${max_price}`;
-            priceRangeInput.value = max_price;
-            petsCheckbox.checked = false;
-            studentCheckbox.checked = false;
-        }
-    </script>
-
-    <script>
-        function priceFilterChanged(refilterFirst = true) {
-            let val = document.getElementById('price-range-input').value;
-            document.getElementById('price-range-text').value = '$' + val;
-            if (refilterFirst) { refilter(priceFilterChanged); }
-            let table = $('#results').DataTable(); // jquery.. getElementById doesn't work
-            // if price isn't <= budget, remove row
-            table.rows(function (idx, data, node) {
-                let price = parseInt(data['price'].replace('$', ''));
-                return price > val;
-            })
-                .remove()
-                .draw();
-        }
-
-        function petsFilterChanged(refilterFirst = true) {
-            console.log('petsFilterChanged called');
-            let checked = document.getElementById('pets-checkbox').checked;
-            if (refilterFirst) { refilter(petsFilterChanged); }
-            if (checked) {
-                let table = $('#results').DataTable(); // jquery.. getElementById doesn't work
-                // if pets doesn't have checkmark, remove row
-                table.rows(function (idx, data, node) {
-                    return data['pets'] != checkmark;
-                })
-                    .remove()
-                    .draw();
-            }
-        }
-
-        function studentFilterChanged(refilterFirst = true) {
-            let checked = document.getElementById('student-checkbox').checked;
-            if (refilterFirst) { refilter(studentFilterChanged); }
-            if (checked) {
-                let table = $('#results').DataTable(); // jquery.. getElementById doesn't work
-                // if student doesn't have checkmark, remove row
-                table.rows(function (idx, data, node) {
-                    return data['student'] != checkmark;
-                })
-                    .remove()
-                    .draw();
-            }
         }
     </script>
 
