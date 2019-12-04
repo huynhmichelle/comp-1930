@@ -85,6 +85,7 @@ function populateRentalTable(dataSet) {
         dom: '<"#table-len"l>f<t>ip',
         autoWidth: false,
         data: dataSet,
+        responsive: true,
         columns: [
             { title: 'Picture', data: 'pic' },
             { title: 'Listing', data: 'landlord' },
@@ -174,7 +175,8 @@ function populateUserTable(dataSet) {
 
     $('#user-results').DataTable({
         dom: '<"#table-len"l>f<t>ip',
-        autoWidth: true,
+        autoWidth: false,
+        responsive: true,
         data: dataSet,
         columns: [
             { title: 'Picture', data: 'pic' },

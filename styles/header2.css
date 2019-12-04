@@ -1,10 +1,10 @@
+.user-profile-elements {
+    display: none;
+}
+
 #body {
     margin: 0;
     padding: 0;
-}
-
-.user-profile-elements {
-    visibility: hidden;
 }
 
 /* older */
@@ -16,7 +16,6 @@
 #buttonstyle {
     float: left;
 }
-
 
 #img_float {
     float: right;
@@ -57,14 +56,14 @@
 }
 
 .openbtn {
+    position: absolute;
     left: 30px;
+    padding: 10px 15px;
     font-size: 20px;
     cursor: pointer;
     background-color: #111;
     color: white;
-    padding: 10px 15px;
     border: none;
-    position: absolute;
 }
 
 .openbtn:hover {

@@ -1,4 +1,3 @@
-
 function firebase_init() {
     // Your web app's Firebase configuration
     var firebaseConfig = {
@@ -24,13 +23,17 @@ function firebase_init() {
             // User is signed in.
             console.log('Logged in');
             console.log(user.uid);
+            userId = user.uid;
             // Make profile elements visisble when user is logged in
             const profileElements = document.querySelectorAll('.user-profile-elements');
+            console.log(profileElements);
             profileElements.forEach(elem => {
-                elem.style.visibility = 'visible';
+                // elem.style.visibility = 'visible';
+                elem.style.display = "inline-block";
+                console.log(elem);
             });
             // Hide login button
-            document.getElementById('login-button').style.visibility = 'hidden';
+            document.getElementById('login-button').style.display = 'none';
 
         } else {
             console.log('User not logged in');
