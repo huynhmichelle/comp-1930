@@ -34,10 +34,11 @@ function mapbox_init() {
     document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
     let geocoderInput = document.getElementsByClassName('mapboxgl-ctrl-geocoder--input')[0];
     document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].style.width = "100%";
-    console.log(geocoderInput);
     geocoderInput.placeholder = 'In this location...';
-    geocoderInput.style.width = "10";
+    geocoderInput.style.width = "2em;";
     geocoderInput.style.fontSize = "1.2em";
+    geocoderInput.style.marginRight = "2em";
+    // console.log(geocoderInput);
     console.log('mapbox setup done');
     
 }

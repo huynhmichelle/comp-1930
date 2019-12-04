@@ -6,6 +6,35 @@ var xmark = '&#10006;'; // ✖
 var savedRentalData = [];
 var savedUserData = [];
 
+var showRentalTable = true;
+var showUserTable = true;
+
+// Only process url options if at least one is false and needs to be hidden (they should never both be false)
+// Default display (without any ? url params) is to show both tables
+let params = decodeURIComponent(window.location.search);
+if( params && params.split('?')[1].search('false') != -1 ){
+    let rentalDisplay = params.split('?')[1].split('&')[0];
+    let peopleDisplay = params.split('?')[1].split('&')[1];
+    // If rentals=false then hide rental table from display and make people the default
+    if( rentalDisplay.split('=')[1] == 'false' ) {
+        document.getElementById('rental-table-div').style.display = 'none';
+        document.getElementById('rental-tab').style.display = 'none';
+        $('#user-tab').addClass('active');
+        $('#user-table-div').tab('show');
+        showRentalTable = false;
+    }
+    // If people=false then hide use table from display
+    if( peopleDisplay.split('=')[1] == 'false' ) {
+        document.getElementById('user-table-div').style.display = 'none';
+        document.getElementById('user-tab').style.display = 'none';
+        showUserTable = false;
+    }
+}
+
+
+//if (profileId.search('id=') != -1) {
+  //  var idValue = parseInt(profileId.split('=')[1]);
+
 
 function getRentalData() {
     db.collection('rentals')
@@ -33,8 +62,11 @@ function getRentalData() {
             console.log("Error getting documents: ", error);
         });
 }
+
 // Get rental data
-getRentalData();
+if( showRentalTable ){ 
+    getRentalData();
+}
 
 function populateRentalTable(dataSet) {
     // Process firestore data for display
@@ -110,9 +142,10 @@ function getUserData() {
         });
 }
 
-// Get user data
-getUserData();
-
+// Get rental data
+if( showUserTable ){ 
+    getUserData();
+}
 
 function populateUserTable(dataSet) {
     // Process firestore data for display
