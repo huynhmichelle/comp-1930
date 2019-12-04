@@ -83,7 +83,7 @@ function populateRentalTable(dataSet) {
 
     $('#rental-results').DataTable({
         dom: '<"#table-len"l>f<t>ip',
-        autoWidth: true,
+        autoWidth: false,
         data: dataSet,
         columns: [
             { title: 'Picture', data: 'pic' },
@@ -94,6 +94,16 @@ function populateRentalTable(dataSet) {
             { title: 'Rooms', data: 'rooms_available' },
             { title: 'Roommates', data: 'roommates' },
             { title: 'Starting', data: 'date' },
+            /*
+            { title: 'Picture', data: 'pic',      width: '10%' },
+            { title: 'Listing', data: 'landlord', width: '10%' },
+            { title: 'Price', data: 'price',  width: '10%' },
+            { title: 'Pets', data: 'pets',  width: '10%' },
+            { title: 'Students', data: 'student',  width: '10%' },
+            { title: 'Rooms', data: 'rooms_available',  width: '10%' },
+            { title: 'Roommates', data: 'roommates',  width: '10%' },
+            { title: 'Starting', data: 'date',  width: '40%' },
+            */
         ]
     });
 
