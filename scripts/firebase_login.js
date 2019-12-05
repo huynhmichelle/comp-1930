@@ -12,17 +12,20 @@ function firebaseLogin() {
         measurementId: "G-8V89TB50QY"
     };
 
-
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
-    // Initialize the FirebaseUI Widget using Firebase.
     // Initialize Firestore
     var db = firebase.firestore();
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+    // Initialize the FirebaseUI Widget using Firebase.
     var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+    var redirect_page = window.localStorage.getItem('login_redirect') || 'main.html';
+    //window.localStorage.removeItem('login_redirect');
+    
     var uiConfig = {
         callbacks: {
-            signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+            signInSuccessWithAuthResult: function (authResult) {
                 // User successfully signed in.
                 // Return type determines whether we continue the redirect automatically
                 // or whether we leave that to developer to handle.
@@ -31,8 +34,7 @@ function firebaseLogin() {
                 if (authResult.additionalUserInfo.isNewUser) {
                     db.collection('users').doc(user.uid).set({
                         email: user.email,
-                        // not checking if uniqe for noww
-                        displayID: randInt(1, 10e6)
+                        displayID: randInt(1, 10e6) // not checking if uniqe for noww
                     })
                         .then(function () {
                             console.log("new user added to firestore");
@@ -40,7 +42,7 @@ function firebaseLogin() {
                             return true;
                         })
                         .catch(function (error) {
-                            console.log('Error happened' + error);
+                            console.log('Error in new user handler' + error);
                         });
 
                 } else {
@@ -55,8 +57,8 @@ function firebaseLogin() {
             }
         },
         // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-        signInFlow: 'popup',
-        signInSuccessUrl: 'main.html',
+        signInFlow: 'popup', //popup
+        signInSuccessUrl: redirect_page,
         signInOptions: [
             firebase.auth.EmailAuthProvider.PROVIDER_ID,
         ],

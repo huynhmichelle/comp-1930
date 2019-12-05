@@ -113,6 +113,10 @@
         .social-media-link {
             display: none;
         }
+
+        .user-profile-elements {
+            display: none;
+        }
     </style>
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -129,22 +133,24 @@
 
     <nav id="navbar-site" class="navbar navbar-dark headerstyle navbar-expand-sm">
         <div class="navbar-header">
-            <div id="main;buttonstyle">
-                <button class="openbtn" onclick="openNav()" style="float:left">☰</button>
+            <div id="main">
+                <button id="main" class="openbtn" onclick="openNav()" style="float:left">☰</button>
             </div>
-            <div class="container;text-center">
-                <a href="user_profile.html"><img src="./images/user-2.png" width="65px" , height="65px"
-                        id="img_float"></a>
-                <a class="navbar-brand" href="main.html" style="font-size:40px">APP NAME</a>
-                <div id="mySidebar" class="sidebar">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-                    <a href="main.html">Homepage</a>
-                    <a href="user_profile.html">Profile</a>
-                    <a href="about.html">About</a>
-                    <a href="contact.html">Contact</a>
-                    <a href="#" onclick="firebase_logout()">Logout</a>
-                </div>
+            <div>
+                <a class="navbar-brand" href="main.html" style="font-size: 40px; margin-left: 2em;">APP NAME</a>
+                <a href="user_profile.html"><img class="user-profile-elements" src="./images/user-2.png" width="65px"
+                        height="65px" id="img_float"></a>
+                <a href="login.html"><button id="login-button" class="btn btn-lg btn-primary" style="float: right;"
+                        type="button">Login</button></a>
             </div>
+            <div id="mySidebar" class="sidebar">
+                <a href="#" class="closebtn" onclick="closeNav()">×</a>
+                <a href="main.html">Home</a>
+                <a id="login-sidebar" href="login.html">Login</a>
+                <a class="user-profile-elements" href="user_profile.html">Profile</a>
+                <a class="user-profile-elements" id="logout-button" href="#" onclick="firebase_logout()">Logout</a>
+            </div>
+        </div>
     </nav>
     <div class="container" style="background-color: white;">
         <br>
@@ -184,11 +190,11 @@
                         </td>
                         <td id="facebook" class="social-media-link">
                             <img src="images/facebook.png" width="30px" height="30px">
-                            <a href="#">Facebook</a>
+                            <a id="facebook-link" href="#">Facebook</a>
                         </td>
                         <td id="twitter" class="social-media-link">
                             <img src="images/twitter.png" width="30px" height="30px">
-                            <a href="#">Twitter</a>
+                            <a id="twitter-link" href="#">Twitter</a>
                         </td>
                     </tr>
                     <tr>
@@ -208,10 +214,8 @@
                 </table>
             </div>
         </div>
-        <br>
-        <br>
         <div>
-            <legend style="font-weight: bold;">Bio</legend>
+            <legend style="font-weight: bold; margin-top: 3em;">Bio</legend>
             <table class="table table-light" style="background-color: #D1DBE0;">
                 <tr>
                     <td id="bio-description">
@@ -221,7 +225,7 @@
             </table>
         </div>
         <div id="rental-info" style="display: none;">
-            <legend>For Rent</legend>
+            <legend style="font-weight: bold;">For Rent</legend>
             <p id='property-description'></p>
             <table class="table table-light" style="background-color: #D1DBE0;">
                 <tbody>
@@ -237,8 +241,8 @@
             </table>
         </div>
         <div>
-            <legend style="font-weight: bold;">Search filter tags</legend>
             <table id='search-filter-tags-table' class="table table-light" style="background-color: #D1DBE0;">
+                <legend style="font-weight: bold;">Search Filter Tags</legend>
                 <tbody>
                     <tr>
                     </tr>
@@ -263,6 +267,14 @@
         // Initialize firebase and firestore
         var db = firebase_init();
 
+        // Redirect to login page if user isn't signed in, 
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (!user && !logging_out) {
+                window.localStorage.setItem('login_redirect', window.location.href);
+                window.location.assign('login.html');
+            }
+        });
+
         var searchTags = [['children_not_ok', 'Not OK With Children'],
         ['children_ok', 'OK With Children'],
         ['pets_not_ok', 'Not OK With Pets'],
@@ -273,6 +285,7 @@
         ['looking_for_tenants', 'Looking For Tenants'],
         ['unemployed', 'Unemployed']];
 
+        var socialMedia = ['facebook', 'twitter', 'instagram'];
         var profileQuery = decodeURIComponent(window.location.search);
         var profileId = profileQuery.split('?')[1];
 
@@ -280,7 +293,6 @@
 
         if (profileId.search('id=') != -1) {
             var idValue = parseInt(profileId.split('=')[1]);
-            console.log(idValue);
             var profileData;
             var rentalData;
             // Get user profile data
@@ -302,14 +314,24 @@
                     document.getElementById('email-link').setAttribute('href', `mailto:${profileData.email}`);
                     document.getElementById('email').style.display = "inline";
 
+                    for (social of socialMedia) {
+                        // console.log(social);
+                        if (profileData.user_data[social]) {
+                            // console.log('yes ' + social);
+                            document.getElementById(`${social}-link`).innerHTML = profileData.user_data[social];
+                            document.getElementById(social).style.display = "inline"; //inline-block?
+
+                        }
+                    }
+
                     let searchTagTable = document.getElementById('search-filter-tags-table');
                     let newCell = searchTagTable.getElementsByTagName('tr')[0].insertCell(-1);
                     for (tag of searchTags) {
-                        console.log(tag);
-                        if (profileData.user_data[tag[0]] == true) {
+                        // console.log(tag);
+                        if (profileData.user_data[tag[0]]) {
                             let tagClass;
-                            tagClass = tag[1].search('Not') == -1 ? "badge badge-primary" : "badge badge-danger";
                             let tagText = tag[1];
+                            tagClass = tag[1].search('Not') == -1 ? "badge badge-primary" : "badge badge-danger";
                             newCell.innerHTML += `<a href="#" style="margin: 0.2em;" class="${tagClass}">${tagText}</a>`;
                         }
                     }
@@ -333,14 +355,16 @@
                     });
                 })
                 .then(function (result) {
-                    if (result) {
-                        document.getElementById('price').innerHTML = `Price: $${rentalData.rent_price}`;
-                        document.getElementById('rooms').innerHTML = `Rooms: ${rentalData.rooms_available}`;
-                        document.getElementById('students').innerHTML = `Students: ${rentalData.student_tenant}`;
-                        document.getElementById('roommates').innerHTML = `Roommates: ${rentalData.roommates}`;
-                        document.getElementById('starting_date').innerHTML = `Available: ${rentalData.date_available}`;
+                    if (rentalData) {
+
+                        document.getElementById('price').innerHTML = `<b>Price:</b> $${rentalData.rent_price}`;
+                        document.getElementById('rooms').innerHTML = `<b>Rooms:</b> ${rentalData.rooms_available}`;
+                        document.getElementById('students').innerHTML = `<b>Students:</b> ${rentalData.student_tenant}`;
+                        document.getElementById('roommates').innerHTML = `<b>Roommates:</b> ${rentalData.roommates}`;
+                        document.getElementById('starting_date').innerHTML = `<b>Available:</b> ${rentalData.date_available}`;
                         document.getElementById('property-description').innerHTML = 'Description of my property';
                         document.getElementById("rental-info").style.display = "inline";
+
                     }
                 })
                 // Something went wrong, catch and print the error
@@ -349,10 +373,7 @@
                 });
         }
 
-
-
     </script>
-
 
 </body>
 

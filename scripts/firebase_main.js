@@ -1,3 +1,5 @@
+var logging_out = false;
+
 function firebase_init() {
     // Your web app's Firebase configuration
     var firebaseConfig = {
@@ -28,19 +30,19 @@ function firebase_init() {
             const profileElements = document.querySelectorAll('.user-profile-elements');
             console.log(profileElements);
             profileElements.forEach(elem => {
+                console.log('sanity check');
                 // elem.style.visibility = 'visible';
-                elem.style.display = "inline-block";
+                elem.setAttribute('style', 'display:block !important');
                 console.log(elem);
             });
-            // Hide login button
+            // Hide login buttons
             document.getElementById('login-button').style.display = 'none';
-
+            document.getElementById('login-sidebar').style.display = 'none';
         } else {
             console.log('User not logged in');
             // No user is signed in.
         }
     });
-    
     return db;
 }
 
@@ -49,7 +51,8 @@ function firebase_logout() {
     firebase.auth().signOut().then(function() {
         // Sign-out successful.
         console.log('User logged out');
-        window.location.assign('login.html');
+        logging_out = true;
+        window.location.assign('index.html');
     
     }).catch(function(error) {
         // An error occurred.

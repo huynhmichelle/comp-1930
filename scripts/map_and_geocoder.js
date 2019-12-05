@@ -36,8 +36,8 @@ function mapbox_init() {
     document.getElementsByClassName('mapboxgl-ctrl-geocoder')[0].style.width = "100%";
     geocoderInput.placeholder = 'In this location...';
     geocoderInput.style.width = "2em;";
-    geocoderInput.style.fontSize = "1.2em";
-    geocoderInput.style.marginRight = "2em";
+    geocoderInput.style.fontSize = "1.3em";
+    geocoderInput.style.marginRight = "1.5em";
     // console.log(geocoderInput);
     console.log('mapbox setup done');
     

@@ -1,40 +1,46 @@
 // Initialize firebase and firestore
 var db = firebase_init();
 
-var checkmark = '&#10004;'; // ✔
-var xmark = '&#10006;'; // ✖
+var checkmark = '<span style="color: green; font-size:2em;">&#10004;</span>'; // ✔
+var xmark = '<span style="color: red; font-size:1.5em;">&#10006;</span>'; // ✖
 var savedRentalData = [];
 var savedUserData = [];
-
 var showRentalTable = true;
 var showUserTable = true;
+var showLandlords = true;
 
-// Only process url options if at least one is false and needs to be hidden (they should never both be false)
-// Default display (without any ? url params) is to show both tables
-let params = decodeURIComponent(window.location.search);
-if( params && params.split('?')[1].search('false') != -1 ){
-    let rentalDisplay = params.split('?')[1].split('&')[0];
-    let peopleDisplay = params.split('?')[1].split('&')[1];
-    // If rentals=false then hide rental table from display and make people the default
-    if( rentalDisplay.split('=')[1] == 'false' ) {
+function parseUrlVars() {
+    var vars = {};
+    // Use regular expression to parse url parameters
+    window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
+// Default display (without any url ?=) is to show both tables
+let urlVars = parseUrlVars();
+let urlHasVars = Boolean(Object.keys(urlVars).length);
+
+if( urlHasVars ) { 
+    if( !(urlVars['rental']=='true') ) {
         document.getElementById('rental-table-div').style.display = 'none';
         document.getElementById('rental-tab').style.display = 'none';
         $('#user-tab').addClass('active');
         $('#user-table-div').tab('show');
         showRentalTable = false;
     }
-    // If people=false then hide use table from display
-    if( peopleDisplay.split('=')[1] == 'false' ) {
+    
+    if( (urlVars['tenant']=='false') && (urlVars['roommate']=='false') ) {
         document.getElementById('user-table-div').style.display = 'none';
         document.getElementById('user-tab').style.display = 'none';
         showUserTable = false;
     }
+    
+    if( (urlVars['tenant']=='true') || (urlVars['roommate']=='true') ) {
+        showLandlords = false;
+    }
 }
-
-
-//if (profileId.search('id=') != -1) {
-  //  var idValue = parseInt(profileId.split('=')[1]);
-
 
 function getRentalData() {
     db.collection('rentals')
@@ -53,6 +59,7 @@ function getRentalData() {
                     'rooms_available': doc.data().rooms_available,
                     'date': doc.data().date_available,
                     'landlord': doc.data().landlordId,
+                    'smoking': doc.data().smoking,
                 });
             });
             // Add data to rental table
@@ -74,6 +81,9 @@ function populateRentalTable(dataSet) {
         // If pets is True replace with ✔, else ✖
         o.pets = o.pets ? checkmark : xmark;
         o.student = o.student ? checkmark : xmark;
+        o.rooms_available = `<span style="font-size: 2em;">${'&#128719;'.repeat(o.rooms_available)}</span>`;
+        o.roommates = `<span style="font-size: 1.5em;">${'&#128578;'.repeat(o.roommates)}</span>`;
+        o.smoking = o.smoking ? `<span style="font-size: 1.5em;">${'&#128684;'.repeat(o.smoking)}</span>` : xmark;
         o.price = '$' + o.price.toString();
         o.landlord = o.landlord ? `<a href="profile_other_user.html?id=${o.landlord}">View</a>` : '';
     }
@@ -89,22 +99,13 @@ function populateRentalTable(dataSet) {
         columns: [
             { title: 'Picture', data: 'pic' },
             { title: 'Listing', data: 'landlord' },
-            { title: 'Price', data: 'price' },
+            { title: 'Rent', data: 'price' },
             { title: 'Pets', data: 'pets' },
             { title: 'Students', data: 'student' },
-            { title: 'Rooms', data: 'rooms_available' },
+            { title: 'Smoking', data: 'smoking' },
+            { title: 'Rooms Available', data: 'rooms_available' },
             { title: 'Roommates', data: 'roommates' },
             { title: 'Starting', data: 'date' },
-            /*
-            { title: 'Picture', data: 'pic',      width: '10%' },
-            { title: 'Listing', data: 'landlord', width: '10%' },
-            { title: 'Price', data: 'price',  width: '10%' },
-            { title: 'Pets', data: 'pets',  width: '10%' },
-            { title: 'Students', data: 'student',  width: '10%' },
-            { title: 'Rooms', data: 'rooms_available',  width: '10%' },
-            { title: 'Roommates', data: 'roommates',  width: '10%' },
-            { title: 'Starting', data: 'date',  width: '40%' },
-            */
         ]
     });
 
@@ -130,7 +131,6 @@ function getUserData() {
         .then(function (querySnapshot) {
             let dataSet = [];
             querySnapshot.forEach(function (doc) {
-                //console.log(doc.id, " => ", doc.data());
                 dataSet.push({
                     'userId': doc.data().displayId,
                     'pic': '<img src="images/User%20default%20photo.png" width="50px;">',
@@ -142,7 +142,8 @@ function getUserData() {
                     'pets': doc.data().user_data.pets_ok,
                     'student': doc.data().user_data.post_secondary,
                     'city': doc.data().user_data.city,
-                    'unemployed': doc.data().user_data.unemployed
+                    'unemployed': doc.data().user_data.unemployed,
+                    'budget': doc.data().user_data.budget,
                 });
             });
             // Add data to user table
@@ -159,18 +160,36 @@ if( showUserTable ){
 }
 
 function populateUserTable(dataSet) {
-    // Process firestore data for display
+
+    // Hide landlords if user has housing and is only looking for rooommates OR if the user is also a landlord
+    if( urlHasVars ) {
+        if( showLandlords ){ 
+            dataSet = dataSet.filter(o => {return o.looking_for_tenants});
+        } else {
+            dataSet = dataSet.filter(o => {return !o.looking_for_tenants});
+        }
+        // Hide all users who already have housing if user is a landlord looking for tenants
+        if( urlVars['tenant'] == 'true' ) {
+            dataSet = dataSet.filter(o => {return o.looking_for_housing});
+        }
+    }
+
+
     for (var o of dataSet) {
         // If pets is True replace with ✔, else ✖
         o.pets = o.pets ? checkmark : xmark;
         o.student = o.student ? checkmark : xmark;
+        o.looking_for_roommates = o.looking_for_roommates ? checkmark : xmark;
+        o.looking_for_housing= o.looking_for_housing ? checkmark : xmark;
         o.userId = `<a href="profile_other_user.html?id=${o.userId}">View</a>`;
-        for (var attr in o) {
-            if( !o.attr ) { 
-                o.attr = '';
-            }
+        if( !o.budget ) {
+            o.budget = '';
+        }
+        else{
+            o.budget = '$' + o.budget.toString();
         }
     }
+
     savedUserData = dataSet;
 
     $('#user-results').DataTable({
@@ -182,10 +201,12 @@ function populateUserTable(dataSet) {
             { title: 'Picture', data: 'pic' },
             { title: 'Profile', data: 'userId' },
             { title: 'Name', data: 'name' },
-            { title: 'Pets', data: 'pets' },
+            { title: 'Budget', data: 'budget' },
+            { title: 'Looking for roommates', data: 'looking_for_roommates' },
+            { title: 'Looking for housing', data: 'looking_for_housing' },
+            { title: 'Pets OK', data: 'pets' },
             { title: 'Student', data: 'student' },
             { title: 'City', data: 'city' },
-            { title: 'Unemployed', data: 'unemployed' },
         ]
     });
 }

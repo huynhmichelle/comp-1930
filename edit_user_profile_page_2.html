@@ -112,7 +112,7 @@
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 
-  <script src="script/firebase_main.js"></script>
+  <script src="scripts/firebase_main.js"></script>
 
   <title>Edit Profile</title>
 </head>
@@ -120,22 +120,23 @@
 <body>
   <nav id="navbar-site" class="navbar navbar-dark headerstyle navbar-expand-sm">
     <div class="navbar-header">
-      <div id="main;buttonstyle">
+      <div id="main">
         <button class="openbtn" onclick="openNav()" style="float:left">☰</button>
       </div>
-      <div class="container">
-        <a href="user_profile.html"><img src="./images/user-2.png" width="65px" , height="65px" id="img_float"></a>
-        <a class="navbar-brand" href="main.html" style="font-size:40px">APP NAME</a>
+      <div>
+        <a class="navbar-brand" href="main.html" style="font-size: 40px; margin-left: 2em;">APP NAME</a>
+        <a href="user_profile.html"><img class="user-profile-elements" src="./images/user-2.png" width="65px"
+            height="65px" id="img_float"></a>
+        <a href="login.html"><button id="login-button" class="btn btn-lg btn-primary" style="float: right;"
+            type="button">Login</button></a>
       </div>
       <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-        <a href="main.html">Homepage</a>
-        <a href="user_profile.html">Profile</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="#" onclick="firebase_logout()">Logout</a>
+        <a href="main.html">Home</a>
+        <a id="login-sidebar" href="login.html">Login</a>
+        <a class="user-profile-elements" href="user_profile.html">Profile</a>
+        <a class="user-profile-elements" id="logout-button" href="#" onclick="firebase_logout()">Logout</a>
       </div>
-    </div>
     </div>
   </nav>
   <div class="container">
@@ -266,7 +267,16 @@
 
 <script>
   // Initialize Firebase and Firestore
-  var db = init_firebase();
+  var db = firebase_init();
+
+  // If user isn't signed in, redirect to login page
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (!user && !logging_out) {
+      window.localStorage.setItem('login_redirect', window.location.href);
+      window.location.assign('login.html');
+    }
+  });
+
 
   var userId;
 

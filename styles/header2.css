@@ -1,5 +1,5 @@
 .user-profile-elements {
-    display: none;
+    display: none !important;
 }
 
 #body {
@@ -72,11 +72,9 @@
 
 #main {
     transition: margin-left .5s;
-    padding-bottom: 15px;
 }
 
-/* top right bottom left
-    /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 
 @media screen and (max-height: 450px) {
     .sidebar {
