@@ -61,7 +61,7 @@ User’s own profile page showing their name, contact info / optional social med
 
 ### user_profile.html
 ---
-Profile page for other users. A url argument (?id=___) specifies which user profile to load. This page shows the same info as **my_profile.html** but without an edit profile button. It also displays rental information if the user is a landlord.
+Profile page for other users. A url argument (*'?id='*) specifies which user profile to load. This page shows the same info as **my_profile.html** but without an edit profile button. It also displays rental information if the user is a landlord.
 
 ### main.html
 ---
@@ -81,4 +81,5 @@ Displays user and rental info in two table tabs depending on what checkboxes the
 **firebase_login.js** is used for the login authentication in login.html
 
 **firebase_main.js** includes the initializing of Google Firebase and Firestore and includes a logout function for logging out signed-in users. It also has a function for changing certain page elements based on whether the user is signed-in or not.
-*search.js* processes firestore data and creates the user and rental datatables. It contains the custom search filter functions.
+
+**search.js** processes firestore data and creates the user and rental datatables. It contains the custom search filter functions.
