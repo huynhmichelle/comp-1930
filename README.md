@@ -73,12 +73,12 @@ Displays user and rental info in two table tabs depending on what checkboxes the
 
 ### styles
 ---
-**cover.css** is for styling the landing page (index.html)
+**cover.css** is for styling the landing page (**index.html**)
 **header.css** is for styling the page headers found on most of the webpages
 
 ### scripts
 ---
-**firebase_login.js** is used for the login authentication in login.html
+**firebase_login.js** is used for the login authentication in **login.html**
 
 **firebase_main.js** includes the initializing of Google Firebase and Firestore and includes a logout function for logging out signed-in users. It also has a function for changing certain page elements based on whether the user is signed-in or not.
 
