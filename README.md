@@ -74,6 +74,7 @@ Displays user and rental info in two table tabs depending on what checkboxes the
 ### styles
 ---
 **cover.css** is for styling the landing page (**index.html**)
+
 **header.css** is for styling the page headers found on most of the webpages
 
 ### scripts
