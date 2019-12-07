@@ -30,10 +30,8 @@ function firebase_init() {
             const profileElements = document.querySelectorAll('.user-profile-elements');
             console.log(profileElements);
             profileElements.forEach(elem => {
-                console.log('sanity check');
                 // elem.style.visibility = 'visible';
                 elem.setAttribute('style', 'display:block !important');
-                console.log(elem);
             });
             // Hide login buttons
             document.getElementById('login-button').style.display = 'none';
@@ -52,6 +50,7 @@ function firebase_logout() {
         // Sign-out successful.
         console.log('User logged out');
         logging_out = true;
+        localStorage.removeItem('login_redirect');
         window.location.assign('index.html');
     
     }).catch(function(error) {

@@ -163,17 +163,18 @@
             let test_landlords = [3846773, 7739020, 6329925];
             let dates = ['Dec 1 2019', 'Jan 1 2020', 'Feb 1 2020', 'Mar 1 2020'];
             let x = 1;
-            while(x < 12){
+            while(x < 20){
                 var rentalsRef = db.collection('rentals');
                 let d = dates[randInt(0, dates.length-1)];
                 rentalsRef.add({
                     rental_id: x,
                     rent_price: x*2*100,
-                    pets_ok: randInt(1,4) == 1 ? true : false,
+                    pets_ok: randInt(1,3) == 1 ? true : false,
+                    children_ok: randInt(1,3) == 1 ? true : false,
                     student_tenant: randInt(1,3) == 1 ? true : false,
                     employed_tenant: x % 4 == 0 ? true : false,
                     smoking: x % 5 == 0 ? true : false,
-                    roommates: randInt(0,3),
+                    roommates: randInt(0,2),
                     rooms_available: randInt(1,3),
                     date_available: d,
                     landlordId: test_landlords[randInt(0,2)],

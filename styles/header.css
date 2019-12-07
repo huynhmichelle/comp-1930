@@ -1,3 +1,22 @@
+#search-filter-tags-table {
+    font-size: 1.1em;
+}
+
+.social-media-link {
+    display: none;
+}
+
+.user-profile-elements {
+    display: none !important;
+}
+
+#body {
+    margin: 0;
+    padding: 0;
+}
+
+/* older */
+
 #divstyle {
     background-color: #D1DBE0;
 }
@@ -12,7 +31,7 @@
 
 .sidebar {
     height: 100%;
-    width: 0;
+    width: 0px;
     position: fixed;
     z-index: 2;
     top: 0;
@@ -45,11 +64,13 @@
 }
 
 .openbtn {
+    position: absolute;
+    left: 30px;
+    padding: 10px 15px;
     font-size: 20px;
     cursor: pointer;
     background-color: #111;
     color: white;
-    padding: 10px 15px;
     border: none;
 }
 
@@ -59,7 +80,6 @@
 
 #main {
     transition: margin-left .5s;
-    padding: 16px;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -73,12 +93,21 @@
     }
 }
 
+/* Hide the header login button when the width is less than 450px (hamburger menu is more prominent) */
+@media screen and (max-width: 450px) {
+    #login-button {
+        display: none;
+    }
+}
+
 .headerstyle {
     background-color: #234567;
 }
 
 body {
     background-color: #D1DBE0;
+    margin: 0;
+    padding: 0;
 }
 
 .navbar-header {

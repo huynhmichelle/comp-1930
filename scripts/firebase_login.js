@@ -29,7 +29,6 @@ function firebaseLogin() {
                 // User successfully signed in.
                 // Return type determines whether we continue the redirect automatically
                 // or whether we leave that to developer to handle.
-                console.log('LOGGED IN');
                 var user = authResult.user;
                 if (authResult.additionalUserInfo.isNewUser) {
                     db.collection('users').doc(user.uid).set({
@@ -53,11 +52,11 @@ function firebaseLogin() {
             uiShown: function () {
                 // The widget is rendered.
                 // Hide the loader.
-                document.getElementById('loader').style.display = 'none';
+                //document.getElementById('loader').style.display = 'none';
             }
         },
         // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-        signInFlow: 'popup', //popup
+        signInFlow: 'redirect', //popup
         signInSuccessUrl: redirect_page,
         signInOptions: [
             firebase.auth.EmailAuthProvider.PROVIDER_ID,
