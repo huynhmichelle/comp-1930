@@ -28,6 +28,7 @@
 │   └── search.js
 ├── search.html
 ├── styles
+│   ├── login.css
 │   ├── cover.css
 │   ├── header.css
 │   └── map.css
@@ -76,6 +77,8 @@ Displays user and rental info in two table tabs depending on what checkboxes the
 **cover.css** is for styling the landing page (**index.html**)
 
 **header.css** is for styling the page headers found on most of the webpages
+
+**login.css** is for styling the the login page (**login.html**)
 
 ### scripts
 ---
