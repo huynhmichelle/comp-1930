@@ -15,7 +15,7 @@ function firebase_init() {
 
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
-    console.log('initialized firebase');
+    console.log('Initialized firebase');
 
     // Initialize Firestore
     var db = firebase.firestore();
@@ -28,7 +28,6 @@ function firebase_init() {
             userId = user.uid;
             // Make profile elements visisble when user is logged in
             const profileElements = document.querySelectorAll('.user-profile-elements');
-            console.log(profileElements);
             profileElements.forEach(elem => {
                 // elem.style.visibility = 'visible';
                 elem.setAttribute('style', 'display:block !important');
@@ -50,7 +49,9 @@ function firebase_logout() {
         // Sign-out successful.
         console.log('User logged out');
         logging_out = true;
+        // Remove saved redirect page if it exists
         localStorage.removeItem('login_redirect');
+        // Redirect to landing page
         window.location.assign('index.html');
     
     }).catch(function(error) {

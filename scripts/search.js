@@ -1,23 +1,27 @@
 // Initialize firebase and firestore
 var db = firebase_init();
 
-var checkmark = '<span style="color: green; font-size:1.8em;">&#10004;</span>'; // ✔
-var xmark = '<span style="color: red; font-size:1.3em;">&#10006;</span>'; // ✖
+var checkmark = '<span style="color: green; font-size:1.8em;">&#10004;</span>';     // ✔
+var xmark = '<span style="color: red; font-size:1.3em;">&#10006;</span>';           // ✖
 var savedRentalData = [];
 var savedUserData = [];
 var showRentalTable = true;
 var showUserTable = true;
 var showLandlords = true;
 
+
+// Use regular expression to parse url parameters
+// Returns object with string keys and values
 function parseUrlVars() {
     var vars = {};
-    // Use regular expression to parse url parameters
     window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
         vars[key] = value;
     });
     return vars;
 }
 
+// Get the current active datatable
+// Returns id of table as string
 function getActiveTable() {
     let parentId = $('.nav-tabs .active').attr('href');
     if (parentId == '#rental-table-div' && showRentalTable ) {
@@ -28,12 +32,12 @@ function getActiveTable() {
     }
 }
 
-// Default display (without any url ?=) is to show both tables
+// Determine which tables to render depending on url params
+// Default display (without any url ?=...) is to show both tables
 let urlVars = parseUrlVars();
 let urlHasVars = Boolean(Object.keys(urlVars).length);
-
 if (urlHasVars) {
-    if (!(urlVars['rental'] == 'true')) {
+    if (urlVars['rental'] == 'false') {
         document.getElementById('rental-table-div').style.display = 'none';
         document.getElementById('rental-tab').style.display = 'none';
         $('#user-tab').addClass('active');
@@ -52,6 +56,8 @@ if (urlHasVars) {
     }
 }
 
+// Get rental data from firestore
+// Doesn't return data but passes it to populateRentalTable
 function getRentalData() {
     db.collection('rentals')
         .get()
@@ -86,26 +92,27 @@ if (showRentalTable) {
     getRentalData();
 }
 
+// Process firestore data for display
 function populateRentalTable(dataSet) {
-    // Process firestore data for display
     for (o of dataSet) {
-        // If pets is True replace with ✔, else ✖
+        // If pets or students is True replace with ✔, else ✖
         o.pets = o.pets ? checkmark : xmark;
         o.student = o.student ? checkmark : xmark;
-        o.rooms_available = `<span style="font-size: 2em;">${'&#128719;'.repeat(o.rooms_available)}</span>`;
-        o.roommates = `<span style="font-size: 1.5em;">${'&#128578;'.repeat(o.roommates)}</span>`;
-        o.smoking = o.smoking ? `<span style="font-size: 1.5em;">${'&#128684;'.repeat(o.smoking)}</span>` : xmark;
+        o.rooms_available = `<span style="font-size: 2em;">${'&#128719;'.repeat(o.rooms_available)}</span>`;            // 🛏 (sleeping accommodation)
+        o.roommates = `<span style="font-size: 1.5em;">${'&#128578;'.repeat(o.roommates)}</span>`;                      // 🙂 (slightly smiling face)
+        o.smoking = o.smoking ? `<span style="font-size: 1.5em;">${'&#128684;'.repeat(o.smoking)}</span>` : xmark;      // 🚬 (smoking smybol)
         o.price = '$' + o.price.toString();
-        o.landlord = o.landlord ? `<a href="user_profile.html?id=${o.landlord}">View</a>` : '';
+        o.landlord = o.landlord ? `<a href="user_profile.html?id=${o.landlord}">View</a>` : '';                         // Insert link to landlord
         o.children = o.children ? checkmark : xmark;
     }
 
-    // save the processed data
+    // save the processed data to use with filter clear functions
     savedRentalData = dataSet;
 
+    // Create the rental datatable
     $('#rental-results').DataTable({
         dom: '<"#table-len"l>f<t>ip',
-        autoWidth: false,
+        autoWidth: false,   // Doesn't fill parent div when True
         data: dataSet,
         responsive: true,
         columns: [
@@ -122,11 +129,13 @@ function populateRentalTable(dataSet) {
         ]
     });
 
+    // Update budget selector with retrieved data
     updateBudgetUI(dataSet);
 
 }
 
-
+// Get user data from firestore
+// Doesn't return data but passes it to populateUserTable
 function getUserData() {
     db.collection('users')
         .get()
@@ -151,6 +160,7 @@ function getUserData() {
             // Add data to user table
             populateUserTable(dataSet);
 
+            // Update budget selector if rental table data isn't displayed first
             if( !showRentalTable ) {
                 updateBudgetUI(dataSet);
             }
@@ -166,8 +176,6 @@ if (showUserTable) {
 }
 
 function populateUserTable(dataSet) {
-
-    
     if (urlHasVars) {
         // Hide landlords if user has housing and is only looking for rooommates OR if the user is also a landlord
         if (showLandlords) {
@@ -181,21 +189,22 @@ function populateUserTable(dataSet) {
         }
     }
 
-
+    // Process user data for display
     for (var o of dataSet) {
-        // If pets is True replace with ✔, else ✖
+        // If pets or children_ok is true replace with ✔, else ✖
         o.pets = o.pets ? checkmark : xmark;
         o.student = o.student ? checkmark : xmark;
         o.looking_for_roommates = o.looking_for_roommates ? checkmark : xmark;
         o.looking_for_housing = o.looking_for_housing ? checkmark : xmark;
-        o.userId = `<a href="user_profile.html?id=${o.userId}">View</a>`;
+        o.userId = `<a href="user_profile.html?id=${o.userId}">View</a>`;   // Add link to user profile
         o.children_ok = o.children_ok ? checkmark : xmark;
-        console.log(o.price);
         o.price = '$' + o.price.toString();
     }
 
+    // save the processed data to use with filter clear functions
     savedUserData = dataSet;
 
+    // Create user datatable
     $('#user-results').DataTable({
         dom: '<"#table-len"l>f<t>ip',
         autoWidth: false,
@@ -216,16 +225,11 @@ function populateUserTable(dataSet) {
     });
 }
 
+// Update price filter with highest price in retrieved datas
 function updateBudgetUI(dataSet) {
-    // Update price filter with highest price in retrieved data
     let max_price = dataSet.reduce(function (a, b) {
-        //console.log(a);
-        //console.log(b);
         a.price = a.price.toString() || '$0';
         b.price = b.price.toString() || '$0';
-        console.log(a.price);
-        console.log(b.price);
-        
         let price1 = parseInt(a.price.replace('$', ''));
         let price2 = parseInt(b.price.replace('$', ''));
         return (price1 > price2) ? a : b
@@ -238,32 +242,36 @@ function updateBudgetUI(dataSet) {
     document.getElementById("price-range-max-text").innerHTML = `$${max_price}`;
 }
 
+
+// This function is called by every filter function
+/* In order to stack multiple filters and have them all clearable without altering the retrieved data or 
+   using another database query, we first clear all filters then reapply every filter functon except the caller. 
+   The default parameter refilterFirst must be set to false here or there's infinite recursion. */
 function refilter(caller) {
     restoreData();
     let filterFunctions = [priceFilterChanged, petsFilterChanged, kidsFilterChanged];
-    // filterFunctions.filter(f => f==caller);
-    for (f of filterFunctions) {
-        if (f != caller) {
-            f(false);
-            //console.log(f);
+    for (filter of filterFunctions) {
+        if (filter != caller) {
+            filter(refilterFirst=false);
         }
     }
 }
 
+// Restore saved table data
+// Used when Clear button is pressed or refilter is called.
 function restoreData() {
-    // Restore saved table data
     let tableId = getActiveTable();
-    console.log(tableId);
-    let table = $(tableId).DataTable();
+    let table = $(tableId).DataTable(); // jquery.. getElementById doesn't work
     table.clear().draw();
-    if (tableId == '#rental-results') { table.rows.add(savedRentalData) }
-    else { table.rows.add(savedUserData) }
+    if (tableId == '#rental-results') table.rows.add(savedRentalData);
+    else table.rows.add(savedUserData);
     table.columns.adjust().draw();
 }
 
+// Reset filter UI elements and restore data
+// Used when Clear button is pressed
 function clearFilters() {
     restoreData();
-    // Clear UI filter elements
     let priceRangeInput = document.getElementById('price-range-input');
     let petsCheckbox = document.getElementById('pets-checkbox');
     let studentCheckbox = document.getElementById('student-checkbox');
@@ -275,6 +283,8 @@ function clearFilters() {
     studentCheckbox.checked = false;
 }
 
+
+// Price Slider Filter
 function priceFilterChanged(refilterFirst = true) {
     let val = document.getElementById('price-range-input').value;
     document.getElementById('price-range-text').value = '$' + val;
@@ -289,6 +299,7 @@ function priceFilterChanged(refilterFirst = true) {
         .draw();
 }
 
+// Pets checkbox filter
 function petsFilterChanged(refilterFirst = true) {
     console.log('petsFilterChanged called');
     let checked = document.getElementById('pets-checkbox').checked;
@@ -304,6 +315,7 @@ function petsFilterChanged(refilterFirst = true) {
     }
 }
 
+// Student checkbox filter
 function studentFilterChanged(refilterFirst = true) {
     let checked = document.getElementById('student-checkbox').checked;
     if (refilterFirst) { refilter(studentFilterChanged); }
@@ -318,12 +330,13 @@ function studentFilterChanged(refilterFirst = true) {
     }
 }
 
+// Kids checkbox filter
 function kidsFilterChanged(refilterFirst = true) {
     let checked = document.getElementById('kids-checkbox').checked;
     if (refilterFirst) { refilter(studentFilterChanged); }
     if (checked) {
         let table = $(getActiveTable()).DataTable(); // jquery.. getElementById doesn't work
-        // if student doesn't have checkmark, remove row
+        // if kids doesn't have checkmark, remove row
         table.rows(function (idx, data, node) {
             return data['children_ok'] != checkmark;
         })

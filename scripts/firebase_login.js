@@ -1,5 +1,4 @@
 function firebaseLogin() {
-    console.log('firebase login called');
     
     var firebaseConfig = {
         apiKey: "AIzaSyCOl7zfOtE5H75WPViBv-jNxn9nZLhHNFo",
@@ -20,8 +19,9 @@ function firebaseLogin() {
     // Initialize the FirebaseUI Widget using Firebase.
     var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
+    // If user was trying to view a profile not logged in then get url from localStorage
+    // Else redirect them to the main page
     var redirect_page = window.localStorage.getItem('login_redirect') || 'main.html';
-    //window.localStorage.removeItem('login_redirect');
     
     var uiConfig = {
         callbacks: {
@@ -33,10 +33,10 @@ function firebaseLogin() {
                 if (authResult.additionalUserInfo.isNewUser) {
                     db.collection('users').doc(user.uid).set({
                         email: user.email,
-                        displayID: randInt(1, 10e6) // not checking if uniqe for noww
+                        displayID: randInt(1, 10e6) // for MVP, not checking if uniqe for now
                     })
                         .then(function () {
-                            console.log("new user added to firestore");
+                            // If new user, redirect to edit profile
                             window.location.assign('edit_user_profile.html');
                             return true;
                         })
@@ -52,7 +52,7 @@ function firebaseLogin() {
             uiShown: function () {
                 // The widget is rendered.
                 // Hide the loader.
-                //document.getElementById('loader').style.display = 'none';
+                // document.getElementById('loader').style.display = 'none';
             }
         },
         // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
@@ -69,6 +69,8 @@ function firebaseLogin() {
     // The start method will wait until the DOM is loaded.
     ui.start('#firebaseui-auth-container', uiConfig);
 
+    // Generate a random integer for displayIds
+    // Not checking if they are unique right now
     function randInt(min, max){
         return(Math.floor(Math.random() * (+max - +min)) + +min); 
     }
